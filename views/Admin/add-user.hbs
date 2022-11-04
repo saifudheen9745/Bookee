@@ -1,0 +1,60 @@
+<main id="main" class="main">
+   <style>
+      .error{ color: red; }
+   </style>
+   <div class="container mt-5 d-flex justify-content-center">
+      <h2 class="text-primary">Add User</h2>
+   </div>
+   <div class="container mt-5 d-flex justify-content-center">
+      <form class="w-50" action="/admin/add-user" method="post" id="add-user">
+         <div class="mb-3">
+            <input type="text" class="form-control" id="nme" name="name" placeholder="Name" />
+         </div>
+         <div class="mb-3">
+            <input type="email" class="form-control" id="prc" name="email" placeholder="Email" />
+         </div>
+         <div class="mb-3">
+            <input type="text" class="form-control" id="cat" name="password" placeholder="Password" />
+         </div>
+         <div class="mb-3">
+            <input type="number" class="form-control" id="ag" name="age" placeholder="Age" />
+         </div>
+         <div class="mb-3">
+            <input type="tel" class="form-control" id="mb" name="mobile" placeholder="Mobile" />
+         </div>
+         <div class="mb-3">
+            <select id="" name="blocked" class="form-control">
+               <option value="" style="color: grey;" class="selected">Status</option>
+               <option value="true">Block</option>
+               <option selected value="false">Unblock</option>
+            </select>
+         </div>
+         {{#if signUpError}}
+            <p style="color: red;">{{signUpError}}</p>
+         {{/if}}
+         <button type="submit" class="btn btn-success">Add User</button>
+      </form>
+   </div>
+
+   <script
+      src="https://code.jquery.com/jquery-3.6.1.js"
+      integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+      crossorigin="anonymous"
+   ></script>
+   <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+      integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+   ></script>
+
+   <script>
+      $(document).ready(function(){ jQuery.validator.addMethod("noSpace", function(value, element) { return value.indexOf("
+      ") < 0 && value != ""; }, "Space are not allowed"); $("#add-user").validate({ rules:{ name:{ required:true,
+      noSpace:true, }, email:{ required:true, noSpace:true }, password:{ required:true, noSpace:true }, age:{ required:true,
+      noSpace:true }, mobile:{ required:true, noSpace:true } }, messages:{ name:{ required:'Enter the name', }, email:{
+      required:"Enter the email" }, password:{ required:"Enter the password" }, age:{ required:"Enter the age", }, mobile:{
+      required:"Enter the mobile number", } } }) })
+   </script>
+
+</main>

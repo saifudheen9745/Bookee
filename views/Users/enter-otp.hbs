@@ -1,0 +1,124 @@
+
+
+
+<!-- molla/login.html  22 Nov 2019 10:04:03 GMT -->
+<body class="bg-light" >
+    
+        
+8
+        <main class="main" style="">
+            
+            <div class="login-page pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17 " >
+                <h1 class="text-center mt-3 mb-3">Shoppee</h1>
+            	<div class="container">
+            		<div class="form-box">
+            			<div class="form-tab">
+	            			
+							<div class="tab-content">
+							   
+                                
+							    <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
+
+							    	
+                                    <form action="/verify" method="">
+							    		<div class="form-group">
+							    			<label for="singin-email-2">Enter the otp you recieved in your mobile</label>
+							    			<input type="text" class="form-control" id="singin-email-2" name="otp">
+                                            <div>Time left = <span id="timer" class="text-danger"></span></div>
+							    		</div><!-- End .form-group -->
+                                        {{#if invalidOtp}}
+                                        <p style="color: red">Invalid Otp</p>
+                                        {{else}}
+                                        <p></p>
+                                        {{/if}}
+                                        <button type="submit" id="verify" class="btn btn-outline-primary-2">
+                                            <span>Verify</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+                                        <button type="submit" id="resend" onclick="resendOtp()" style="display: none;" class="btn btn-outline-primary-2">
+                                            <span>Resend</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+							    	</form>
+
+							    
+
+
+							    </div><!-- .End .tab-pane -->
+							</div><!-- End .tab-content -->
+						</div><!-- End .form-tab -->
+            		</div><!-- End .form-box -->
+            	</div><!-- End .container -->
+            </div><!-- End .login-page section-bg -->
+        </main><!-- End .main -->
+
+    <script>
+        let timerOn = true;
+
+        function timer(remaining) {
+        var m = Math.floor(remaining / 60);
+        var s = remaining % 60;
+        
+        m = m < 10 ? '0' + m : m;
+        s = s < 10 ? '0' + s : s;
+        document.getElementById('timer').innerHTML = m + ':' + s;
+        remaining -= 1;
+        
+        if(remaining >= 0 && timerOn) {
+            setTimeout(function() {
+                timer(remaining);
+            }, 1000);
+            return;
+        }
+
+        if(!timerOn) {
+            
+            return;
+        }
+        
+        // Do timeout stuff here
+        document.getElementById('verify').style.display = 'none'
+        document.getElementById('resend').style.display = 'block'
+        }
+        timer(60);
+
+        function resendOtp(){
+            $.ajax({
+                url:'/resendOtp',
+                type:'get',
+                success:(response)=>{
+                    timer(60)
+                    document.getElementById('verify').style.display = 'block'
+                    document.getElementById('resend').style.display = 'none'
+                },
+			error:(response)=>{
+				location.href = '/error'
+			}
+            })
+        }
+    </script>    
+    
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+   
+
+    
+
+    <!-- Sign in / Register Modal -->
+    
+
+    <!-- Plugins JS File -->
+    <script src="userAssets/js/jquery.min.js"></script>
+    <script src="userAssets/js/bootstrap.bundle.min.js"></script>
+    <script src="userAssets/js/jquery.hoverIntent.min.js"></script>
+    <script src="userAssets/js/jquery.waypoints.min.js"></script>
+    <script src="userAssets/js/superfish.min.js"></script>
+    <script src="userAssets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="userAssets/js/main.js"></script>
+</body>
+
+
+<!-- molla/login.html  22 Nov 2019 10:04:03 GMT -->

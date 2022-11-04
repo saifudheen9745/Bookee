@@ -1,0 +1,85 @@
+<main id="main" class="main">
+   <div class="container pt-5">
+     
+      <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+
+      <table class="table  mt-5" id="table_id">
+         <thead>
+            <tr>
+               <th scope="col">No</th>
+               <th scope="col">Name</th>
+               <th scope="col">email</th>
+               <th scope="col">Status</th>
+               <th scope="col">Options</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each users as |item i|}}
+               <tr class="bg-light" valign="middle">
+                  <td class="bg-light" >{{inc @i}}</td>
+                  <td>{{this.name}}</td>
+                  <td>{{this.email}}</td>
+                  <td>
+                     
+                     {{#if this.blocked}}
+                     <p id="status{{this._id}}" class="text-danger">Blocked</p>
+                     {{else}}
+                     <p id="status{{this._id}}" class="" style="color: green;">Active</p>
+                     {{/if}}
+                  </td>
+                  <td>
+                     {{#if this.blocked}}
+                     <input type="checkbox" checked id="check{{this._id}}" onchange="getData('{{this._id}}')" data-toggle="toggle" data-off="Block" data-on="Unblock" data-onstyle="success" data-offstyle="danger">
+                     {{else}}
+                     <input type="checkbox"  id="check{{this._id}}" onchange="getData('{{this._id}}')" data-toggle="toggle" data-off="Block" data-on="Unblock" data-onstyle="success" data-offstyle="danger">
+                     {{/if}}
+                     {{!-- <a href="/admin/edit-user/{{this._id}}" class="btn btn-primary me-5">Edit</a>
+                     <a
+                        onclick='return confirm("Are you sure you want to delete the user {{this.name}}")'
+                        href="/admin/delete-user/{{this._id}}"
+                        class=""
+                     ><img style="width:3em" src="/images/trash.png" alt=""></a> --}}
+                  </td>
+               </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+
+
+   <script>
+      $( function () { $('#table_id').DataTable(); } );
+   </script>
+
+   <script>
+      function getData(userId){
+         var a = document.getElementById(`check${userId}`).checked ? 'Blocked' : 'Active'
+         if(a == 'Blocked'){
+            a = true
+         }else{
+            a = false
+         }
+         console.log(a,userId)
+         $.ajax({
+            url:'/admin/changeuserstatus',
+            type:'POST',
+            data:{
+               a,
+               userId
+            },
+            success:(response)=>{
+               if(response == true){
+                  document.getElementById(`status${userId}`).innerHTML = ' <p id="status{{this._id}}" class="" style="color: red;">Blocked</p>'
+               }else{
+                   document.getElementById(`status${userId}`).innerHTML =  '<p id="status{{this._id}}" class="" style="color: green;">Active</p>'
+               }
+            },
+			error:(response)=>{
+				location.href = '/admin/error'
+			}
+         })
+      }
+   </script>
+</main>

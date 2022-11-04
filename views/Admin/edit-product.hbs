@@ -1,0 +1,212 @@
+<style>
+   #result{
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+}
+.thumbnail {
+  height: 200px;
+}
+</style>
+
+<main class="main" id="main">
+   <section>
+      <div class="container me-5 mt-4">
+         <div class="row">
+
+            <div class="col-md-6">
+               <h2 class="text-center">
+                  Edit Product
+               </h2>
+               {{#if product}}
+               <form autocomplete="off" action="/admin/edit-product/{{product._id}}" method="post" enctype="multipart/form-data" id="edit-product">
+                  
+                  <div class="mb-3">
+                     <input type="text" class="form-control" id="book" onkeyup="checkBook()" name="Book" value="{{product.Book}}" placeholder="Name of book" />
+                     <P style="color: red;" id="bookerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input type="number" class="form-control" id="price" onkeyup="checkPrice()" name="Price" value="{{product.Price}}" placeholder="Price of book" />
+                     <P style="color: red;" id="priceerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input type="text" class="form-control" id="author" onkeyup="checkAuthor()" name="Author" value="{{product.Author}}" placeholder="Author" />
+                      <P style="color: red;" id="authorerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <select name="Genre" id="genre" onselect="checkGenre()"  class="form-control">
+                        <option value="{{product.Genre}}">Current Genre:{{product.Genrename.Name}}</option>
+                        {{#each data}}
+                        <option value="{{this._id}}">{{this.Name}}</option>
+                        {{/each}}
+                     </select>
+                     <P style="color: red;" id="genreererror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input type="text" class="form-control" id="publisher" onkeyup="checkPublisher()" name="Publisher" value="{{product.Publisher}}" placeholder="Publisher" />
+                      <P style="color: red;" id="publishererror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input type="number" class="form-control" id="quantity" onkeyup="checkPublisher()" name="Quantity" value="{{product.Quantity}}" placeholder="Quantity" />
+                      <P style="color: red;" id="publishererror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <textarea
+                        class="form-control"
+                        id="description"
+                        name="Description"
+                        placeholder="Description"
+                        onkeyup="checkDescription()"
+                        cols="30"
+                        rows="10"
+                     >{{product.Description}}</textarea>
+                     <P style="color: red;" id="descriptionerror"></P>
+                  </div>
+                     <div class="mb-3">
+                        <input
+                           multiple
+                           accept="image/*"
+                           type="file"
+                           name="image"
+                           id="files"
+                           class="form-control"
+                           placeholder="Image"
+                        />
+                        <P style="color: red;" id="imgerror"></P>
+                     </div>
+                     <div  class="mb-3">
+                          
+                     </div>
+                     <div id="result" class="mb-3">
+                        <img style="width:100px;" src="/productImages/{{product.img.[0]}}" id="image1" alt="" />
+                        <img style="width:100px;" src="/productImages/{{product.img.[1]}}" id="image2" alt="" />
+                        <img style="width:100px;" src="/productImages/{{product.img.[2]}}" id="image3" alt="" />
+                        <img style="width:100px;" src="/productImages/{{product.img.[3]}}" id="image4" alt="" />
+                     </div>
+                  {{/if}}
+                  <button type="submit" onclick="return hello()" class="btn btn-primary">Submit</button>
+               </form>
+            </div>
+         </div>
+      </div>
+
+   </section>
+</main>
+
+<script>
+   //document.getElementById('img').onchange = function () { var src = URL.createObjectURL(this.files[0])
+   //document.getElementById('image1').src = src
+   //document.getElementById('image2').src = src }
+   document.querySelector("#files").addEventListener("change", (e) => { 
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+    const files = e.target.files;
+    const output = document.querySelector("#result");
+    output.innerHTML = "";
+    for (let i = 0; i < files.length; i++) {
+       if (!files[i].type.match("image")) continue;
+        const picReader = new FileReader();
+        picReader.addEventListener("load", function (event) {
+          const picFile = event.target;
+          const div = document.createElement("div");
+          div.innerHTML = `<img style="width:100px;" class="thumbnail" src="${picFile.result}" title="${picFile.name}"/>`;
+          output.appendChild(div);
+        });
+        picReader.readAsDataURL(files[i]);
+       }
+  } else {
+    alert("Your browser does not support File API");
+  }
+});
+</script>
+
+<script>
+
+ 
+   var book = document.getElementById('book')
+   var price = document.getElementById('price')
+   var author = document.getElementById('author')
+   var genre = document.getElementById('genre')
+   var publisher = document.getElementById('publisher')
+   var description = document.getElementById('description')
+   var img = document.getElementById('img')
+
+   
+
+   function checkBook(){
+      if(book.value == ""||null|| book.value.replace(/\s+/g, '').length == 0){
+         
+         document.getElementById('bookerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('bookerror').innerHTML = ""
+         return true
+      }
+   }
+
+   function checkPrice(){
+      if(price.value == ""||null|| price.value.replace(/\s+/g, '').length == 0){
+        
+         document.getElementById('priceerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('priceerror').innerHTML = ""
+         return true
+      }
+   }
+
+   function checkAuthor(){
+      if(author.value == ""||null|| author.value.replace(/\s+/g, '').length == 0){
+        
+         document.getElementById('authorerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('authorerror').innerHTML = ""
+         return true
+      }
+   }
+
+   function checkGenre(){
+      if(genre.value == ""||null|| genre.value.replace(/\s+/g, '').length == 0){
+         document.getElementById('genreerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('genreerror').innerHTML = ""
+         return true
+      }
+   }
+
+
+   function checkPublisher(){
+      if(publisher.value == ""||null|| publisher.value.replace(/\s+/g, '').length == 0){
+        
+         document.getElementById('publishererror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('publishererror').innerHTML = ""
+         return true
+      }
+   }
+
+   function checkDescription(){
+      if(description.value == ""||null|| description.value.replace(/\s+/g, '').length == 0){
+         
+         document.getElementById('descriptionerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('descriptionerror').innerHTML = ""
+         return true
+      }
+   }
+ 
+   function hello(){
+      if(checkBook()&&checkPrice()&&checkAuthor()&&checkGenre()&&checkPublisher()&&checkDescription()){
+         return true
+      }else{
+         return false
+      }
+   }
+
+   
+   
+   
+</script>

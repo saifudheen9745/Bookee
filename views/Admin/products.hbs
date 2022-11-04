@@ -1,0 +1,119 @@
+<main id="main" class="main">
+
+   <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+   <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   
+   <div class="container pt-5">
+      <div class="row mb-5">
+         <a href="/admin/add-product" class="btn btn-success ms-auto w-auto">Add Product</a>
+      </div>
+
+      <table class="table mt-5" id="table_id">
+         <thead>
+            <tr>
+               <th scope="col">No</th>
+               <th scope="col">Image</th>
+               <th scope="col">Name</th>
+               <th scope="col">Price</th>
+               <th scope="col">Author</th>
+               <th scope="col">Qty</th>
+               <th scope="col">Category</th>
+               <th scope="col">Options</th>
+            </tr>
+         </thead>
+         <tbody class="p-5">
+            {{#each products as |item i|}}
+               <tr  valign="middle" class="bg-light">
+                  <td class="bg-light">{{inc @i}}</td>
+                  <td><img style="width: 70px; height: 80px;" src="/productImages/{{this.img.[0]}}" alt=""></td>
+                  <td>{{this.Book}}</td>
+                  <td>{{this.Price}}</td>
+                  <td>{{this.Author}}</td>
+                  {{#if (isZero this.Quantity)}}
+                  <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal{{this._id}}">Add Stock</button></td>
+                  {{else}}
+                  <td>{{this.Quantity}}</td>
+                  {{/if}}
+                  
+                  <td>{{this.Genrename.Name}}</td>
+                  <td>
+                     <a href="/admin/edit-product/{{this._id}}" class="me-5"><img style="width: 2em;" src="/images/pen.png" alt=""></a>
+                     <a
+                        onclick='confirmDelete("{{this._id}}")'
+                        
+                        class=""
+                     ><img style="width:3em" src="/images/trash.png" alt=""></a>
+                     {{#if this.Hasoffer}}
+                        <input class="ms-5" type="checkbox" checked id="offer{{this._id}}" onchange="prodOffer('{{this._id}}')" data-toggle="toggle" data-off="Not in offer" data-on="In Offer" data-onstyle="success" data-offstyle="danger">
+                     {{else}}
+                        <input class="ms-5" type="checkbox" id="offer{{this._id}}" onchange="prodOffer('{{this._id}}')" data-toggle="toggle" data-off="Not in offer" data-on="In Offer" data-onstyle="success" data-offstyle="danger">
+                     {{/if}}
+                  </td>
+               </tr>
+               <div class="modal fade" id="Modal{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="/admin/addProductQuantity" method="post" class="d-flex justify-content-center">
+                           <input type="text" value="{{this._id}}" name="prodId" hidden id="">
+                           <input type="text" class="form-class" name="prQnty">
+                           <input type="submit" class="btn btn-success">
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                       
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+  
+</main>
+
+ <script>
+      $( function () { $('#table_id').DataTable(); } );
+
+      function prodOffer(prodId){
+         var a = document.getElementById(`offer${prodId}`).checked ? 'Blocked' : 'Active'
+         if(a == 'Blocked'){
+            a = true
+         }else{
+            a = false
+         }
+         $.ajax({
+            url:'/admin/add-product-offer',
+            type:'post',
+            data:{
+               prodId:prodId,
+               status:a
+            },
+            success:(response)=>{
+               
+            },
+			error:(response)=>{
+				location.href = '/admin/error'
+			}
+         })
+      }
+
+      
+</script>
+

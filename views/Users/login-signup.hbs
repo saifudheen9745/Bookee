@@ -1,0 +1,491 @@
+
+
+<style>
+	body{
+		background-image: url('/images/Book.jpeg');
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+	
+</style>
+
+<body class="bg-light">
+    
+	<main class="main">
+		
+		<div class="login-page h-100 pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17 " >
+			<h1 class="text-center text-white mt-3 mb-3">Bookee</h1>
+			<div class="container">
+				<div style="background-color: #00000070;" class="form-box  text-white">
+					<div class="form-tab">
+						<ul class="nav nav-pills nav-fill" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link " id="signin-tab-2" data-toggle="tab" href="#signin-2" role="tab" aria-controls="signin-2" aria-selected="false">Register</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" id="register-tab-2" data-toggle="tab" href="#register-2" role="tab" aria-controls="register-2"  aria-selected="true">Sign In </a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
+
+
+
+								
+
+
+								{{!-- <form action="/signup" method="post">
+									
+
+									<div class="form-group">
+										<label for="Name">Name</label>
+										<input type="text" class="form-control" id="name1" onkeyup="checkName()" name="name" >
+										
+									</div><!-- End .form-group -->
+										<p style="color: red;" id="nameerror"></p>
+									<div class="form-group">
+										<label for="register-email-2">Your email address *</label>
+										<input type="email" class="form-control" id="email1" onkeyup="checkEmail()" name="email" >
+										<p style="color: red;" id="emailerror"></p>
+									</div><!-- End .form-group -->
+
+									<div class="form-group">
+										<label for="register-password-2">Password *</label>
+										<input type="password" class="form-control" id="password1" onkeyup="checkPassword()" name="password" >
+										<p style="color: red;" id="passworderror"></p>
+									</div><!-- End .form-group -->
+
+									<div class="form-group">
+										<label for="register-password-2">Mobile</label>
+										<input type="tel" class="form-control" id="mobile1" onkeyup="checkMobile()" name="mobile" >
+										<p style="color: red;" id="mobileerror"></p>
+									</div><!-- End .form-group -->
+
+									<div class="form-group">									
+										<input hidden type="text" class="form-control" id="register-password-2" value="false" name="blocked" >
+									</div><!-- End .form-group -->
+
+									{{#if signupError}}
+											<P style="color: red;">{{signupError}}</P> 
+									{{/if}}
+								
+									<div class="form-footer d-flex justify-content-center">
+										<button type="submit" onclick="return hello()" class="btn btn-outline-primary-2">
+											<span>SIGN UP</span>
+											<i class="icon-long-arrow-right"></i>
+										</button>
+									</div><!-- End .form-footer -->
+								</form> --}}
+
+
+
+
+
+
+
+
+
+								<form autocomplete="off" action="/signup" method="post" enctype="">
+									<div class="mb-3">
+										<label class="text-white fs-3" for="singin-email-2">Name *</label>
+										<input type="text" class="form-control" id="book" onkeyup="checkName()" name="name" placeholder="Name" />
+										<P style="color: red;" id="bookerror"></P>
+										<P style="color: red;" id="numbererror"></P>
+									</div>
+									<div class="mb-3">
+										<label class="text-white fs-3" for="singin-email-2">E-mail *</label>
+										<input type="email" class="form-control" id="email" onkeyup="emailCheck()" name="email" placeholder="Email" />
+										<P style="color: red;" id="emailerror"></P>
+									</div>
+									<div class="mb-3">
+										<label class="text-white fs-3" for="singin-email-2">Password *</label>
+										<input type="text" class="form-control" id="author" onkeyup="checkPassword()" name="password" placeholder="Password" />
+										<P style="color: red;" id="authorerror"></P>
+									</div>
+									
+									<div class="mb-3">
+										<label class="text-white fs-3" for="singin-email-2">Mobile *</label>
+										<input type="text" class="form-control" id="publisher" onkeyup="checkMobile()" name="mobile" placeholder="Mobile" />
+										<P style="color: red;" id="publishererror"></P>
+									</div>
+									
+									<div class="form-group">
+																			
+										<input hidden type="text" class="form-control" id="register-password-2" value="false" name="blocked" >
+									</div><!-- End .form-group -->
+
+									<div class="form-group">
+										<label class="text-white fs-3" for="singin-email-2">Referal Id </label>									
+										<input type="text" class="form-control" id="" name="referalId" placeholder="Referral Code">
+									</div><!-- End .form-group -->
+
+									{{#if signupError}}
+											<P style="color: red;">{{signupError}}</P> 
+									{{/if}}
+									<button type="submit" onclick="return hello()" class="btn btn-primary">Submit</button>
+								</form>
+
+
+		
+
+
+							</div><!-- .End .tab-pane -->
+
+
+
+
+
+
+
+
+
+							
+							<div class="tab-pane text-white fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
+
+								
+								<form action="/login" method="post">
+									<div class="form-group">
+										<label class="text-white fs-3" for="singin-email-2">email address *</label>
+										<input type="text" class="form-control" id="singin-email-2" name="email" required>
+									</div><!-- End .form-group -->
+
+									<div class="form-group">
+										<label class="text-white fs-3" for="singin-password-2">Password *</label>
+										<input type="password" class="form-control" id="singin-password-2" name="password" required>
+									</div><!-- End .form-group -->
+
+									{{#if loginError}}
+											<P style="color: red;">{{loginError}}</P> 
+									{{/if}}
+
+									<div class="form-footer">
+										<button type="submit" class="btn  btn-secondary">
+											<span>LOG IN</span>
+											<i class="icon-long-arrow-right"></i>
+										</button>
+
+										{{!-- <div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="signin-remember-2">
+											<label class="custom-control-label" for="signin-remember-2">Remember Me</label>
+										</div><!-- End .custom-checkbox --> --}}
+
+										<a data-toggle="modal" data-target="#forgotpasswordmodal" class="forgot-link fs-3">Forgot Your Password?</a>
+									</div><!-- End .form-footer -->
+								</form>
+
+								<div class="form-choice ">
+									<p class="text-white text-center fs-3">or sign in with</p>
+									<div class="row justify-content-center">
+										<div class="col-sm-6 ">
+											<a href="/phonenumber" class="btn btn-login bg-secondary btn-g text-white fs-2">	
+												OTP
+											</a>
+										</div><!-- End .col-6 -->
+									</div><!-- End .row -->
+									
+								</div><!-- End .form-choice -->
+
+
+
+
+							</div><!-- .End .tab-pane -->
+						</div><!-- End .tab-content -->
+					</div><!-- End .form-tab -->
+				</div><!-- End .form-box -->
+			</div><!-- End .container -->
+		</div><!-- End .login-page section-bg -->
+	</main><!-- End .main -->
+
+
+
+	<div class="modal fade" id="forgotpasswordmodal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title text-center text-black">Forgot Password</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="modalclose()">
+								<span aria-hidden="true"><i class="icon-close"></i></span>
+						</button>
+				</div>
+				<div class="modal-body" style="background-color: rgba(21, 37, 33, 0.397);">
+					<div class="col-md-12">
+						<label class="fs-3 text-black fw-bold" for="">Enter the mobile: </label>
+					</div>
+					<div class="col-md-12">
+						<input style="" class="form-control" type="number"  id="forgotpasswordnumber" name="forgotpasswordnumber">
+					</div>
+					<div class="col-md-12">
+					<button class="btn btn-success mb-4 rounded-pill" onclick="sendOtpForForgotPassword()">Get Otp</button>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div><!-- End Vertically centered Modal-->
+
+
+  
+
+	<div class="modal fade" id="forgotpasswordotpmodal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title text-center text-black">Forgot Password</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="modalclose()">
+						<span aria-hidden="true"><i class="icon-close"></i></span>
+					</button>
+				</div>
+				<div class="modal-body" style="background-color: rgba(21, 37, 33, 0.397);">
+					<div class="col-md-12">
+						<label class="fs-3 text-black fw-bold" for="">Enter the Otp: </label>
+					</div>
+					<div class="col-md-12">
+						<input style="" class="form-control" type="number"  id="forgotpasswordotp" name="forgotpasswordotp">
+					</div>
+					<div class="col-md-12">
+						<button class="btn btn-success mb-4 rounded-pill" onclick="verifyOtpForForgotPassword()">Verify Otp</button>
+					</div>
+				</div>
+			</div><!-- End .modal-content -->
+		</div><!-- End .modal-dialog -->
+	</div><!-- End .modal -->
+
+	<div class="modal fade" id="forgotpasswordchangemodal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h5 class="modal-title text-center text-black">Forgot Password</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="modalclose()">
+						<span aria-hidden="true"><i class="icon-close"></i></span>
+					</button>
+				</div>
+				<div class="modal-body" style="background-color: rgba(21, 37, 33, 0.397);">
+					<div class="col-md-12 mt-3">
+						<input type="text" class="form-control" id="newpassword" placeholder="Enter new password">
+					</div>
+					<div class="col-md-12 mt-3">
+						<input type="text" class="form-control" id="reenternewpassword" placeholder="Re-enter new password">
+					</div>
+					<div class="col-md-12 mt-3 mb-4">
+						<button class="btn btn-success" onclick="changePasswordForForgotPassword()">change password</button>
+					</div>
+				</div>
+			</div><!-- End .modal-content -->
+		</div><!-- End .modal-dialog -->
+	</div><!-- End .modal -->
+    
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+   
+
+<script>
+
+	let userId
+	function sendOtpForForgotPassword(){
+		let number = document.getElementById('forgotpasswordnumber').value
+		console.log(number)
+		$.ajax({
+			url:'/sendOtpForForgotPassword/'+number,
+			type:'get',
+			success:(response)=>{
+				if(response.status){
+					$('#forgotpasswordmodal').modal('hide')
+					$('#forgotpasswordotpmodal').modal('show')
+					userId = response.userId
+					console.log(userId)
+				}else{
+					swal(response.message,"",'info')
+					
+				}
+				
+			},
+			error:(response)=>{
+				location.href = '/error'
+			}
+		})
+	}
+
+	function verifyOtpForForgotPassword(){
+		let otp = document.getElementById('forgotpasswordotp').value
+		$.ajax({
+			url:'/verifyOtpForForgotPassword/'+otp,
+			type:'get',
+			success:(response)=>{
+				if(response.status){
+					$('#forgotpasswordotpmodal').modal('hide')
+					$('#forgotpasswordchangemodal').modal('show')
+				}else{
+					swal("Invalid Otp","",'info')
+				}
+			},
+			error:(response)=>{
+				location.href = '/error'
+			}
+		})
+	}
+
+	function changePasswordForForgotPassword(){
+		let newpassword = document.getElementById('newpassword').value
+		let reenteredpassword = document.getElementById('reenternewpassword').value
+		if(newpassword == reenteredpassword){
+			$.ajax({
+			url:'/changePasswordForForgotPassword',
+			type:'put',
+			data:{
+				password:reenteredpassword,
+				user:userId
+			},
+			success:(response)=>{
+				swal("Password Changed Successfully", "", "success");
+			},
+			error:(response)=>{
+				location.href = '/error'
+			}
+		})
+		}else{
+			swal("new password and retyped password doesn't match", "", "success");
+		}
+	}
+</script>   
+
+<script>
+   document.getElementById('img').onchange = function () { var src = URL.createObjectURL(this.files[0])
+   document.getElementById('image').src = src }
+</script>
+
+<script>
+
+	function containsSpecialChars(str) {
+   	const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+   	return specialChars.test(str);
+	}
+
+	function containNumbers(str) {
+	const numbers = /[1234567890]/;
+	return numbers.test(str);
+	}
+
+	var book = document.getElementById('book')
+	var price = document.getElementById('price')
+	var author = document.getElementById('author') 
+	var publisher = document.getElementById('publisher')
+	var hasNumber = /\d/;   
+
+   
+
+   function checkName(){
+      if(book.value == ""||null|| book.value.replace(/\s+/g, '').length == 0){
+         if(containNumbers(book.value)){
+			document.getElementById('numbererror').innerHTML = "This field must not contain numbers"
+		}else{
+			document.getElementById('numbererror').innerHTML = ""
+		}
+         document.getElementById('bookerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+		
+        document.getElementById('bookerror').innerHTML = "" 
+		
+		if(containNumbers(book.value)){
+		document.getElementById('numbererror').innerHTML = "This field must not contain numbers"
+		return false
+		}else{
+		document.getElementById('numbererror').innerHTML = ""
+		return true
+		}
+         
+      }
+   }
+
+
+   function checkPassword(){
+      if(author.value == ""||null|| author.value.replace(/\s+/g, '').length == 0){
+        
+         document.getElementById('authorerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('authorerror').innerHTML = ""
+         return true
+      }
+   }
+
+
+   function checkMobile(){
+      if(publisher.value == ""||null|| publisher.value.replace(/\s+/g, '').length == 0){
+        
+         document.getElementById('publishererror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('publishererror').innerHTML = ""
+         return true
+      }
+   }
+
+
+    //Email  validation 
+    function ValidateEmail(mail) {
+		const characters = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if (characters.test(mail)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function ValidateEmailSignature(mail) {
+		const characters = /@/;
+		if (characters.test(mail)) {
+			return true;
+		} else {
+		}
+	}
+
+   function emailCheck() {
+   		var mail = document.getElementById("email").value;
+
+		if (mail == "" || mail == null) {
+			document.getElementById("emailerror").innerHTML = "This area should not be blank";
+			return false;
+		} else {
+			if (ValidateEmail(mail)) {
+				document.getElementById("emailerror").innerHTML = "";
+				return true;
+			} else {
+				if (ValidateEmailSignature(mail)) {
+					document.getElementById("emailerror").innerHTML = "Enter the remaining part after '@'";
+					return false;
+				} else {
+					document.getElementById("emailerror").innerHTML = "Email should contain '@'";
+					return false;
+				}
+			}
+		}
+	}
+
+   function hello(){
+      
+      if(checkName()&&emailCheck()&&checkPassword()&&checkMobile()){
+		console.log("yes")
+         return true
+      }else{
+		console.log("no")
+         return false
+      }
+   }
+</script>
+
+
+
+    <!-- Sign in / Register Modal -->
+    
+
+    <!-- Plugins JS File -->
+    <script src="userAssets/js/jquery.min.js"></script>
+    <script src="userAssets/js/bootstrap.bundle.min.js"></script>
+    <script src="userAssets/js/jquery.hoverIntent.min.js"></script>
+    <script src="userAssets/js/jquery.waypoints.min.js"></script>
+    <script src="userAssets/js/superfish.min.js"></script>
+    <script src="userAssets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="userAssets/js/main.js"></script>
+</body>

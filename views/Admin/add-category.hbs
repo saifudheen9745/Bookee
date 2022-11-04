@@ -1,0 +1,67 @@
+<main class="main" id="main">
+   <section>
+      <div class="container me-5 mt-4">
+         <div class="row">
+
+            <div class="col-md-6">
+               <h2 class="text-center">
+                  Add Category
+               </h2>
+               <form autocomplete="off" action="/admin/add-category" method="post" enctype="multipart/form-data">
+                  <div class="mb-3">
+                     <input type="text" class="form-control" id="category" onkeyup="checkBook()" name="Name" placeholder="Name of Category" />
+                     <P style="color: red;" id="categoryerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"   type="file" name="CategoryImage" id="img" class="form-control " required placeholder="Category image" />
+                     <P style="color: red;" id="imgerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <img style="width:100px;" src="" id="image" alt="" />
+                  </div>
+                  <button type="submit" onclick="return hello()" class="btn btn-primary">Submit</button>
+               </form>
+            </div>
+         </div>
+      </div>
+
+   </section>
+</main>
+
+<script>
+   
+</script>
+
+
+<script>
+   document.getElementById('img').onchange = function () { var src = URL.createObjectURL(this.files[0])
+   document.getElementById('image').src = src }
+</script>
+
+<script>
+
+   var category = document.getElementById('category')
+   
+
+   function checkName(){
+      if(category.value == ""||null|| category.value.replace(/\s+/g, '').length == 0){
+         
+         document.getElementById('categoryerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('categoryerror').innerHTML = ""
+         return true
+      }
+   }
+
+   
+
+   function hello(){
+      
+      if(checkId()&&checkBook()){
+         return true
+      }else{
+         return false
+      }
+   }
+</script>

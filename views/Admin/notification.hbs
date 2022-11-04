@@ -1,0 +1,511 @@
+<main id="main" class="main">
+   {{!-- <div class="container">
+      {{#each data}}
+      
+         <div  class="row h-auto mt-5" >
+            <div style="width: 20rem;" class="border border-end-0 d-flex flex-column text-center justify-content-center col-12 col-md-1" >
+               <img class="text-center card-img-top" style="width: 10rem; height: 10rem;" src="/product-images/{{this.prodId}}.jpg" alt="" />
+               
+               <p class="">Product: <span class="fs-6"> {{this.prodDetails.Book}}</span></p>
+               <p class="">Price: <span class="fs-6"> {{this.prodDetails.Price}}</span></p>
+               <p class="">Quantity: <span class="fs-6"> {{this.orderDetails.product.products.quantity}}</span></p>
+               <p class="">Total Price: <span class="fs-6"> Something</span></p>
+               
+            </div>
+            <div  class="col-12 col-md-4  border border-end-0 border-start-0 d-flex flex-column text-center align-items-center">
+               <div class="d-flex flex-column">
+                  <h2>Booking Address</h2><br>
+                  <span>{{this.addressDetails.firstName}} {{this.addressDetails.lastName}}</span>
+                  <span>{{this.addressDetails.housenumberorstreetname}}, {{this.addressDetails.appartment}}</span>
+                  <span>{{this.addressDetails.townorcity}}, {{this.addressDetails.postcode}}</span>
+                  <span>{{this.addressDetails.stateorcounty}}, {{this.addressDetails.country}}</span>
+                  <span>Phone: <span>{{this.addressDetails.phone}}</span></span>
+                  <span>Email: <span>{{this.addressDetails.email}}</span></span>
+               </div>
+               <div class="d-flex flex-column pt-4">
+                  <h2>User Details</h2>
+                  <span>Name: {{this.userDetails.name}}</span>
+                  <span>Email: {{this.userDetails.email}}</span>
+                   <span>Mobile: {{this.userDetails.mobile}}</span>
+               </div>
+            </div>
+
+            <div  class="col-12 col-md-5  border border-start-0 " >
+               <div class="d-flex flex-column  p-5">
+
+                  
+                  <form action="" class="">
+                     <h5 class="text-primary">Reason : <span>{{this.reason}}</span></h5>
+                     <select name="" class="form-select w-auto" id="">
+                        <option value="">Choose an Options</option>
+                        <option value="">Return Approved</option>
+                     </select>
+                  </form>
+               </div>
+            </div>
+
+         </div>
+      {{/each}}
+   </div> --}}
+   
+
+<section class="light">
+	<div class="container py-2">
+    
+		{{#each data}}
+    <div class=" border border-1 border">
+      <h2 class="accordion-header" id="headingOne">
+        {{#if (checkButton this.orderDetails.product.products.shipping)}}
+        <button class=" btn btn-warning w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{this._id}}" aria-expanded="true" aria-controls="collapseOne">
+          {{this.prodDetails.Book}}
+        </button>
+        {{else}}
+         <button class=" btn btn-success w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{this._id}}" aria-expanded="true" aria-controls="collapseOne">
+          {{this.prodDetails.Book}}
+        </button>
+        {{/if}}
+      </h2>
+      <div id="collapseOne{{this._id}}" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+         <article class="postcard light red ">
+			
+				<img class="col-12 col-md-3" style="height: 20rem" src="/productImages/{{this.prodDetails.img.[0]}}" alt="Image Title" />	
+			
+			<div class="p-3 text-dark d-flex">
+            <div>
+
+				<h5 class="postcard__title red"><a href="#">{{this.prodDetails.Book}}</a></h5>
+				<p>Date of Order: <span>{{this.orderDetails.timeoforder}}</span></p>
+				<p>Price: <span>{{this.prodDetails.Offerprice}}</span></p>
+            <p>Quantity: <span>{{this.orderDetails.product.products.quantity}}</span></p>
+				<p>User: <span>{{this.userDetails.name}}</span></p> 
+            
+            </div>
+            <div class="m-5">
+               <h5>Address: </h5>
+               <p>{{this.addressDetails.housenumberorstreetname}}, {{this.addressDetails.appartment}} <br><span>{{this.addressDetails.townorcity}}, {{this.addressDetails.stateorcounty}}</span><br><span>{{this.addressDetails.postcode}}</span><br>Ph:<span>{{this.addressDetails.phone}}</span><br><span>Email: {{this.addressDetails.email}}</span></p>
+            </div>
+            <div class="m-5">
+               <h5>Reason: <span class="text-primary">{{this.reason}}</span></h5>
+                <h5>Status: <span  class="text-primary" id="shippingstatus{{this._id}}">{{this.orderDetails.product.products.shipping}}</span></h5>
+               
+               <form action="" id="returnAcceptForm{{this._id}}">
+                  <input hidden type="text" name="productCount" value="{{this.orderDetails.productCount}}" id="">
+                  <input hidden type="text" name="deductedAmount" value="{{this.orderDetails.deductedOfferAmount}}" id="">
+                  <input hidden type="text" name="orderId" value="{{this.orderId}}" id="">
+                  <input hidden type="text" name="userId" value="{{this.userId}}" id="">
+                  <input hidden type="text" name="prodId" value="{{this.prodId}}" id="">
+                  <input hidden type="text" name="status" value="Return-Approved" id="">
+                  <input hidden type="text" name="quantity" value="{{this.orderDetails.product.products.quantity}}" id="">
+                  <input hidden type="text" name="price" value="{{this.prodDetails.Offerprice}}" id="">
+                  {{#if (afterReturnAccepted this.orderDetails.product.products.shipping)}}
+                  <button type="submit" class="btn btn-success">Accept Return Request</button>
+                  {{/if}}
+               </form>
+               
+            </div>
+			</div>
+          
+		</article>
+        </div>
+      </div>
+    </div>
+		
+
+    <script>
+   $('#returnAcceptForm{{this._id}}').submit((e)=>{
+      console.log('hello')
+      e.preventDefault()
+      $.ajax({
+         url:'/admin/acceptreturnorder',
+         type:'post',
+         data:$('#returnAcceptForm{{this._id}}').serialize(),
+         success:(response)=>{
+            document.getElementById('shippingstatus{{this._id}}').innerHTML = 'Return-Approved'
+            location.reload()
+         },
+			error:(response)=>{
+				location.href = '/admin/error'
+			}
+      })
+   })
+</script>
+     
+		{{/each}}
+	</div> 
+</section>
+
+
+
+<style>
+  
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
+$main-green: #79dd09 !default;
+$main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
+$main-yellow: #bdbb49 !default;
+$main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
+$main-red: #bd150b !default;
+$main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
+$main-blue: #0076bd !default;
+$main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
+
+/* This pen */
+body {
+	font-family: "Baloo 2", cursive;
+	font-size: 16px;
+	color: #ffffff;
+	text-rendering: optimizeLegibility;
+	font-weight: initial;
+}
+
+.dark {
+	background: #110f16;
+}
+
+
+.light {
+	background: #f3f5f7;
+}
+
+a, a:hover {
+	text-decoration: none;
+	transition: color 0.3s ease-in-out;
+}
+
+#pageHeaderTitle {
+	margin: 2rem 0;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 2.5rem;
+}
+
+/* Cards */
+.postcard {
+  flex-wrap: wrap;
+  display: flex;
+  
+  box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
+  border-radius: 10px;
+  margin: 0 0 2rem 0;
+  overflow: hidden;
+  position: relative;
+  color: #ffffff;
+
+	&.dark {
+		background-color: #18151f;
+	}
+	&.light {
+		background-color: #e1e5ea;
+	}
+	
+	.t-dark {
+		color: #18151f;
+	}
+	
+  a {
+    color: inherit;
+  }
+	
+	h1,	.h1 {
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+		line-height: 1.2;
+	}
+	
+	.small {
+		font-size: 80%;
+	}
+
+  .postcard__title {
+    font-size: 1.75rem;
+  }
+
+  .postcard__img {
+    max-height: 180px;
+    width: 100%;
+    object-fit: cover;
+    position: relative;
+  }
+
+  .postcard__img_link {
+    display: contents;
+  }
+
+  .postcard__bar {
+    width: 50px;
+    height: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #424242;
+    transition: width 0.2s ease;
+  }
+
+  .postcard__text {
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .postcard__preview-txt {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+    height: 100%;
+  }
+
+  .postcard__tagbox {
+    display: flex;
+    flex-flow: row wrap;
+    font-size: 14px;
+    margin: 20px 0 0 0;
+		padding: 0;
+    justify-content: center;
+
+    .tag__item {
+      display: inline-block;
+      background: rgba(83, 83, 83, 0.4);
+      border-radius: 3px;
+      padding: 2.5px 10px;
+      margin: 0 5px 5px 0;
+      cursor: default;
+      user-select: none;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background: rgba(83, 83, 83, 0.8);
+      }
+    }
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(-70deg, #424242, transparent 50%);
+    opacity: 1;
+    border-radius: 10px;
+  }
+
+  &:hover .postcard__bar {
+    width: 100px;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .postcard {
+    flex-wrap: inherit;
+
+    .postcard__title {
+      font-size: 2rem;
+    }
+
+    .postcard__tagbox {
+      justify-content: start;
+    }
+
+    .postcard__img {
+      max-width: 300px;
+      max-height: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    .postcard__text {
+      padding: 3rem;
+      width: 100%;
+    }
+
+    .media.postcard__text:before {
+      content: "";
+      position: absolute;
+      display: block;
+      background: #18151f;
+      top: -20%;
+      height: 130%;
+      width: 55px;
+    }
+
+    &:hover .postcard__img {
+      transform: scale(1.1);
+    }
+
+    &:nth-child(2n+1) {
+      flex-direction: row;
+    }
+
+    &:nth-child(2n+0) {
+      flex-direction: row-reverse;
+    }
+
+    &:nth-child(2n+1) .postcard__text::before {
+      left: -12px !important;
+      transform: rotate(4deg);
+    }
+
+    &:nth-child(2n+0) .postcard__text::before {
+      right: -12px !important;
+      transform: rotate(-4deg);
+    }
+  }
+}
+@media screen and (min-width: 1024px){
+		.postcard__text {
+      padding: 2rem 3.5rem;
+    }
+		
+		.postcard__text:before {
+      content: "";
+      position: absolute;
+      display: block;
+      
+      top: -20%;
+      height: 130%;
+      width: 55px;
+    }
+	
+  .postcard.dark {
+		.postcard__text:before {
+			background: #18151f;
+		}
+  }
+	.postcard.light {
+		.postcard__text:before {
+			background: #e1e5ea;
+		}
+  }
+}
+
+/* COLORS */
+.postcard .postcard__tagbox .green.play:hover {
+	background: $main-green;
+	color: black;
+}
+.green .postcard__title:hover {
+	color: $main-green;
+}
+.green .postcard__bar {
+	background-color: $main-green;
+}
+.green::before {
+	background-image: linear-gradient(
+		-30deg,
+		$main-green-rgb-015,
+		transparent 50%
+	);
+}
+.green:nth-child(2n)::before {
+	background-image: linear-gradient(30deg, $main-green-rgb-015, transparent 50%);
+}
+
+.postcard .postcard__tagbox .blue.play:hover {
+	background: $main-blue;
+}
+.blue .postcard__title:hover {
+	color: $main-blue;
+}
+.blue .postcard__bar {
+	background-color: $main-blue;
+}
+.blue::before {
+	background-image: linear-gradient(-30deg, $main-blue-rgb-015, transparent 50%);
+}
+.blue:nth-child(2n)::before {
+	background-image: linear-gradient(30deg, $main-blue-rgb-015, transparent 50%);
+}
+
+.postcard .postcard__tagbox .red.play:hover {
+	background: $main-red;
+}
+.red .postcard__title:hover {
+	color: $main-red;
+}
+.red .postcard__bar {
+	background-color: $main-red;
+}
+.red::before {
+	background-image: linear-gradient(-30deg, $main-red-rgb-015, transparent 50%);
+}
+.red:nth-child(2n)::before {
+	background-image: linear-gradient(30deg, $main-red-rgb-015, transparent 50%);
+}
+
+.postcard .postcard__tagbox .yellow.play:hover {
+	background: $main-yellow;
+	color: black;
+}
+.yellow .postcard__title:hover {
+	color: $main-yellow;
+}
+.yellow .postcard__bar {
+	background-color: $main-yellow;
+}
+.yellow::before {
+	background-image: linear-gradient(
+		-30deg,
+		$main-yellow-rgb-015,
+		transparent 50%
+	);
+}
+.yellow:nth-child(2n)::before {
+	background-image: linear-gradient(
+		30deg,
+		$main-yellow-rgb-015,
+		transparent 50%
+	);
+}
+
+@media screen and (min-width: 769px) {
+	.green::before {
+		background-image: linear-gradient(
+			-80deg,
+			$main-green-rgb-015,
+			transparent 50%
+		);
+	}
+	.green:nth-child(2n)::before {
+		background-image: linear-gradient(
+			80deg,
+			$main-green-rgb-015,
+			transparent 50%
+		);
+	}
+
+	.blue::before {
+		background-image: linear-gradient(
+			-80deg,
+			$main-blue-rgb-015,
+			transparent 50%
+		);
+	}
+	.blue:nth-child(2n)::before {
+		background-image: linear-gradient(80deg, $main-blue-rgb-015, transparent 50%);
+	}
+
+	.red::before {
+		background-image: linear-gradient(-80deg, $main-red-rgb-015, transparent 50%);
+	}
+	.red:nth-child(2n)::before {
+		background-image: linear-gradient(80deg, $main-red-rgb-015, transparent 50%);
+	}
+	
+	.yellow::before {
+		background-image: linear-gradient(
+			-80deg,
+			$main-yellow-rgb-015,
+			transparent 50%
+		);
+	}
+	.yellow:nth-child(2n)::before {
+		background-image: linear-gradient(
+			80deg,
+			$main-yellow-rgb-015,
+			transparent 50%
+		);
+	}
+}
+
+</style>
+</main>

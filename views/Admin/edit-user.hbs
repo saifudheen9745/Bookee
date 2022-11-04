@@ -1,0 +1,46 @@
+<main id="main" class="main">
+
+
+<div class="container mt-5 d-flex justify-content-center">
+   <h2 class="text-primary">Edit User</h2>
+</div>
+{{#if user}}
+   <div class="container mt-5 d-flex justify-content-center">
+      <form class="w-50" action="/admin/edit-user/{{user._id}}" method="post" id="edit-user">
+         <div class="mb-3">
+            <input type="text" class="form-control" disabled id="nme" value="{{user.name}}" name="name" placeholder="Name" />
+         </div>
+         <div class="mb-3">
+            <h3>{{user.status}}</h3>
+            <select id="" name="blocked" class="form-control">
+               <option value="{{user.blocked}}">Status: {{user.blocked}}</option>
+               <option value="false">Unblock</option>
+               <option value="true">Block</option>
+            </select>
+         </div>
+         <button type="submit" class="btn btn-success">Edit User</button>
+      </form>
+   </div>
+{{/if}}
+
+ <script
+         src="https://code.jquery.com/jquery-3.6.1.js"
+         integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+         crossorigin="anonymous"
+      ></script>
+      <script
+         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+         crossorigin="anonymous"
+         referrerpolicy="no-referrer"
+      ></script>
+<style>
+   .error{
+      color: red;
+   }
+</style>
+
+</script>
+
+
+</main>

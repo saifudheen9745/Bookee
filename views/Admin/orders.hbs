@@ -1,0 +1,67 @@
+<main class="main" id="main">
+    <div class="row">
+        <h2>All Orders</h2>
+    </div>
+
+    <div class="page-content mb-5" >
+        <div class="cart">
+            <div class="container-fluid">
+                <div class="row w-100 d-flex justify-content-center">
+                    <div class="col-lg-9 w-100">
+                        <table class="table table-cart table-borderless" id="table_id">
+                            <thead>
+                                <tr class="">
+                                    <th class="fs-4 fw-semibold">Order</th>
+                                    <th class="fs-4 fw-semibold">User</th>
+                                    <th class="fs-4 fw-semibold">Date</th>
+                                    <th class="fs-4 fw-semibold">Total Amount</th>
+                                    <th class="fs-4 fw-semibold">Status</th>
+                                    <th class="fs-4 fw-semibold">Payment</th>
+                                    <th class="fs-4 fw-semibold">Option</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border border-2" >
+                                {{#each allOrders}}
+                                <tr valign="middle" class="bg-light">
+                                    <td class="bg-light">
+                                        <p>#order{{this._id}}</p>
+                                    </td>
+                                    <td>
+                                        <p>{{this.userinfo.name}}</p>
+                                    </td>
+                                    <td>
+                                        <p>{{this.timeoforder}}</p>
+                                    </td>
+                                    <td>
+                                        <p>Rs.{{this.grandTotal}}</p>
+                                    </td>
+                                    <td>
+                                        <p>{{this.status}}</p>
+                                    </td>
+                                    <td>
+                                        <p>{{this.paymentmethod}}</p>
+                                    </td>
+                                    <td>
+                                        <a type="" class="" onclick="adminOrderDetails('{{this._id}}')"><img style="width:2em;cursor:pointer;" src="/images/enter.png" alt=""></a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+
+                            
+
+                            
+                        </table><!-- End .table table-wishlist -->
+                    </div><!-- End .col-lg-9 -->
+                    
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .cart -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+
+
+ <script>
+      $( function () { $('#table_id').DataTable({"aaSorting": []}); } );
+   </script>

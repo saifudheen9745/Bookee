@@ -1,0 +1,232 @@
+
+
+<!-- molla/category.html  22 Nov 2019 10:02:48 GMT -->
+
+
+<body>
+    <div class="page-wrapper">
+       
+
+        <main class="main">
+
+
+            <div class="page-content">
+                <div class="container">
+                	<div class="row">
+                		<div class="col-lg-9">
+                			
+
+
+								
+
+							
+								<div class="products mb-3">
+                                <div id="box" class="row justify-content-center">
+                                    {{#each categoryData}}
+                                    <div class="col-6 col-md-3 col-lg-3 ">
+                                        <div class="product product-7 text-center">
+                                            <figure class="product-media">
+                                                <a style="" href="/product-details/{{this._id}}" class="bg-white d-flex justify-content-center">
+                                                    <img  style="width: 150px;height: 200px;" src="/productImages/{{this.img.[0]}}" alt="Product image" class="product-image">
+                                                </a>
+
+                                                <div class="product-action-vertical">
+                                                    <a onclick="addwishlist('{{this._id}}')" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                                    <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                                </div><!-- End .product-action-vertical -->
+
+                                                <div class="product-action">
+                                                    <a onclick="addToCart('{{this._id}}')" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                </div><!-- End .product-action -->
+                                            </figure><!-- End .product-media -->
+
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <a href="#">{{this.Genre}}</a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a href="product.html">{{this.Book}}</a></h3><!-- End .product-title -->
+                                                <div class="product-price">
+                                                    Rs:{{this.Price}}
+                                                </div><!-- End .product-price -->
+                                               
+
+                                                
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product -->
+                                    </div><!-- End .col-sm-6 col-lg-4 -->
+                                    {{/each}}
+                                   
+                                </div><!-- End .row -->
+                            </div><!-- End .products -->
+							
+                            
+                		</div><!-- End .col-lg-9 -->
+                		<aside class="col-lg-3 order-lg-first">
+                			<div class="sidebar sidebar-shop">
+                				<div class="widget widget-clean">
+                					<label>Filters:</label>
+                					{{!-- <a href="#" class="sidebar-filter-clear">Clean All</a> --}}
+                				</div><!-- End .widget widget-clean -->
+
+                				
+
+        						<div class="widget widget-collapsible">
+    								<h3 class="">
+									    <h5 >
+									        Price :
+									    </h5>
+									</h3><!-- End .widget-title -->
+
+									<div class="collapse show" id="widget-5">
+										<div class="widget-body">
+                                            <div class="filter-price" id="widget-5">
+                                                
+												<input type="range" value="0" max="10000" class="form-range" id="slider">
+												<div class="row justify-content-evenly">
+													<input class="w-25" type="text" id="min" value="0" onclick="changefocus('min')" onkeyup="minimum(event)">
+													<input class="w-25" type="text" id="max" value="0" onclick="changefocus('max')" onkeyup="maximum(event)">
+												</div>
+												
+												<button class="w-auto rounded-pill btn btn-primary mt-2" onclick="applyFilter()">Apply</button>
+												
+                                            </div><!-- End .filter-price -->
+										</div><!-- End .widget-body -->
+									</div><!-- End .collapse -->
+        						</div><!-- End .widget -->
+                			</div><!-- End .sidebar sidebar-shop -->
+                		</aside><!-- End .col-lg-3 -->
+                	</div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    
+
+    
+
+</body>
+	<script>
+
+		let focusOnMinBox 
+		let focusOnMaxBox 
+		
+		function changefocus(box){
+			if(box == 'min'){
+				focusOnMinBox = true
+				focusOnMaxBox = false
+				$('#slider').val($('#min').val())
+			}else{
+				focusOnMaxBox = true
+				focusOnMinBox = false
+				$('#slider').val($('#max').val())
+			}
+		}
+
+		function minimum(e){
+			focusOnMinBox = true
+			focusOnMaxBox = false
+			value = e.target.value
+			console.log(value)
+			$('#slider').val(value)
+		}
+
+		function maximum(e){
+			focusOnMinBox = false
+			focusOnMaxBox = true
+			value = e.target.value
+			$('#slider').val(value)
+		}
+
+		$("#slider").on("change mousemove",function(){
+		  value = $(this).val()
+		  if(focusOnMinBox){
+			$("#min").val(value)
+		  }else{
+			$("#max").val(value)
+		  }
+		  
+		})
+
+		function applyFilter(){
+			let min = $('#min').val()
+			let max = $('#max').val()
+			$.ajax({
+				url:'/applyFilter',
+				type:'post',
+				data:{
+					min:min,
+					max:max
+				},
+				success:(response)=>{
+					console.log(response.length)
+					let printbox = document.getElementById('box')
+					if(response.length !=0){
+						printbox.innerHTML = ""
+						response.forEach((each)=>{
+							printbox.innerHTML += `
+							<div class="col-6 col-md-3 col-lg-3 ">
+								<div class="product product-7 text-center">
+									<figure class="product-media">
+										<a style="" href="/product-details/${each._id}" class="bg-white d-flex justify-content-center">
+											<img  style="width: 150px;height: 200px;" src="/productImages/${each.img[0]}" alt="Product image" class="product-image">
+										</a>
+
+										<div class="product-action-vertical">
+											<a onclick="addwishlist('${each._id}')" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+											<a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+											<a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+										</div>
+
+										<div class="product-action">
+											<a onclick="addToCart('${each._id}')" class="btn-product btn-cart"><span>add to cart</span></a>
+										</div>
+									</figure>
+
+									<div class="product-body">
+										<div class="product-cat">
+											<a href="#">${each.Genre}</a>
+										</div><!-- End .product-cat -->
+										<h3 class="product-title"><a href="product.html">${each.Book}</a></h3>
+										<div class="product-price">
+											Rs:${each.Offerprice}
+										</div>
+									</div>
+								</div>
+							</div>`
+						})	
+					}else{
+						printbox.innerHTML = "<h3>Sorry No Products available in that price range</h3>"
+					}
+				},
+					error:(response)=>{
+					location.href = '/error'
+				}
+			})
+		}
+		
+	</script>
+
+
+    <!-- Plugins JS File -->
+    <script src="userAssets/js/jquery.min.js"></script>
+    <script src="userAssets/js/bootstrap.bundle.min.js"></script>
+    <script src="userAssets/js/jquery.hoverIntent.min.js"></script>
+    <script src="userAssets/js/jquery.waypoints.min.js"></script>
+    <script src="userAssets/js/superfish.min.js"></script>
+    <script src="userAssets/js/owl.carousel.min.js"></script>
+    <script src="userAssets/js/wNumb.js"></script>
+    <script src="userAssets/js/bootstrap-input-spinner.js"></script>
+    <script src="userAssets/js/jquery.magnific-popup.min.js"></script>
+    <script src="userAssets/js/nouislider.min.js"></script>
+    <!-- Main JS userAile -->
+    <script src="userAssets/js/main.js"></script>
+
+

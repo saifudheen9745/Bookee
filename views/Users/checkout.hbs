@@ -1,0 +1,841 @@
+<body>
+   <div class="page-wrapper">
+
+      <main class="main">
+         <div class="page-header text-center" style="background-image: url('userAssets/images/page-header-bg.jpg')">
+            <div class="container">
+               <h1 class="page-title">Checkout<span>Shop</span></h1>
+            </div><!-- End .container -->
+         </div><!-- End .page-header -->
+         {{!-- <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <div class="container">
+               <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                  <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+               </ol>
+            </div><!-- End .container -->
+         </nav><!-- End .breadcrumb-nav --> --}}
+
+         <!-- End .cart-discount -->
+
+         <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+         >
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                  <div class="mt-3">
+                     <h5 class="text-center fs-3">Add Address</h5>
+                  </div>
+                  <form id="address-form">
+                     <div class="row mx-1">
+
+                        <div style="display: none;" class="col-12 col-sm-6">
+                           {{#if user}}
+                              <input
+                                 type="text"
+                                 hidden
+                                 name="userId"
+                                 value="{{user._id}}"
+                                 class="form-control"
+                                 placeholder="First Name"
+                                 required
+                              />
+                           {{/if}}
+
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+
+                           <input type="text" id="fname" name="firstname" onkeyup="checkFname()" class="form-control" placeholder="First Name"  />
+                           <p style="color: red" class="fs-6" id="fnerror"></p>
+                           <p style="color: red" class="fs-6" id="numerror"></p>
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+                           <input type="text" id="lname" name="lastname" class="form-control" onkeyup="checkLname()" placeholder="Last Name"  />
+                           <p style="color: red"  class="fs-6" id="lnerror"></p>
+                           <p style="color: red"  class="fs-6" id="lnumerror"></p>
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12">
+                           <input
+                              id="companyname"
+                              onkeyup="checkCompany()"
+                              type="text"
+                              name="companyname"
+                              class="form-control"
+                              placeholder="Company name (optional)"
+                           />
+                           <p style="color: red"  class="fs-6" id="companyerror"></p>
+                        </div>
+
+                        <div class="col-12">
+                           <input type="text" id="countryname" onkeyup="checkCountry()" name="country" class="form-control"  placeholder="Country" />
+                           <p style="color: red"  class="fs-6" id="countryerror"></p>
+                        </div>
+
+                        <div class="col-12">
+                           <input
+                              type="text"
+                              id="housenumber"
+                              onkeyup="checkHouse()"
+                              class="form-control"
+                              name="housenumberORStreetname"
+                              placeholder="House number and Street name"
+                              
+                           />
+                           <p style="color: red"  class="fs-6" id="houseerror"></p>
+                           <input
+                              id="appartment"
+                              onkeyup="checkAppartment()"
+                              type="text"
+                              class="form-control"
+                              name="appartment"
+                              placeholder="Appartments, suite, unit etc ..."
+                              
+                           />
+                           <p style="color: red"  class="fs-6" id="appartmenterror"></p>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                           <input type="text" id="town" onkeyup="checkTown()" name="townORcity" class="form-control" placeholder="Town/City"  />
+                           <p style="color: red"  class="fs-6" id="townerror"></p>
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+                           <input
+                              id="state"
+                              onkeyup="checkState()"
+                              type="text"
+                              name="stateORcounty"
+                              class="form-control"
+                              placeholder="State/County"
+                              
+                           />
+                           <p style="color: red"  class="fs-6" id="stateerror"></p>
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+                           <input type="text" id="postal" onkeyup="checkPostal()" name="postalcode" class="form-control" placeholder="Postal Code"  />
+                           <p style="color: red"  class="fs-6" id="posterror"></p>
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+                           <input type="tel" id="phone" onkeyup="checkPhone()" name="phone" class="form-control" placeholder="Phone"  />
+                           <p style="color: red"  class="fs-6" id="phoneerror"></p>
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12">
+                           <input type="email" id="email" onkeyup="checkEmail()" name="email" class="form-control" placeholder="Email"  />
+                           <p style="color: red"  class="fs-6" id="emailerror"></p>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                           <button type="submit" class="btn btn-success m-4">Save Changes</button>
+                        </div>
+
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+
+
+        
+
+
+
+
+
+
+
+        {{!-- <div
+        class="modal fade"
+        id="editModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+         >
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                  <div class="mt-3">
+                     <h5 class="text-center fs-3">Edit Address</h5>
+                  </div>
+                  <form id="address-form">
+                     <div class="row mx-1">
+
+                        <div style="display: none;" class="col-12 col-sm-6">
+                           {{#if user}}
+                              <input
+                                 type="text"
+                                 hidden
+                                 name="userId"
+                                 value="{{user}}"
+                                 class="form-control"
+                                 placeholder="First Name"
+                                 required
+                              />
+                           {{/if}}
+
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+
+                           <input type="text" id="f" name="firstname" class="form-control" placeholder="First Name" required />
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+                           <input type="text" name="lastname" class="form-control" placeholder="Last Name" required />
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12">
+                           <input
+                              type="text"
+                              name="companyname"
+                              class="form-control"
+                              placeholder="Company name (optional)"
+                           />
+                        </div>
+
+                        <div class="col-12">
+                           <input type="text" name="country" class="form-control" required placeholder="Country" />
+                        </div>
+
+                        <div class="col-12">
+                           <input
+                              type="text"
+                              class="form-control"
+                              name="housenumberORStreetname"
+                              placeholder="House number and Street name"
+                              required
+                           />
+                           <input
+                              type="text"
+                              class="form-control"
+                              name="apartment"
+                              placeholder="Appartments, suite, unit etc ..."
+                              required
+                           />
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                           <input type="text" name="townORcity" class="form-control" placeholder="Town/City" required />
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+                           <input
+                              type="text"
+                              name="stateORcounty"
+                              class="form-control"
+                              placeholder="State/County"
+                              required
+                           />
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+                           <input type="text" name="postalcode" class="form-control" placeholder="Postal Code" required />
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12 col-sm-6">
+                           <input type="tel" name="phone" class="form-control" placeholder="Phone" required />
+                        </div><!-- End .col-sm-6 -->
+
+                        <div class="col-12">
+                           <input type="email" name="email" class="form-control" placeholder="Email" required />
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                           <button class="btn btn-danger m-4">Cancel</button>
+                           <button type="submit" class="btn btn-success m-4">Save Changes</button>
+                        </div>
+
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         <div class="page-content">
+            <div class="checkout">
+               <div class="container">
+
+                  <div class="cart-discount mt-5">
+                     
+                     <form  action="" id="applycoupon">
+                        {{!-- <input type="text" name="ss" id="">
+                        <input type="submit" name="" id=""> --}}
+                        <div class="input-group">
+                           <input type="text" class="form-control" id="couponInput" name="coupon" placeholder="coupon code"><span><input type="submit" class="btn btn-secondary"></span>
+                        </div><!-- End .input-group -->
+                        <a data-toggle="modal" data-target="#couponmodal" style="cursor: pointer; color: darkblue;">Need to find a coupon?</a>
+                     </form>
+                  </div>
+                  
+                  <div class="modal fade" id="couponmodal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                 <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="modalclose()">
+                                          <span aria-hidden="true"><i class="icon-close"></i></span>
+                                    </button>
+                                    <h3 class="text-center fw-5 text-success">COUPONS</h3>
+                                    {{#each coupons}}
+                                 <div class="col-md-12 float-left me-5 mb-4">                       
+                                 <label class="card">
+                                    <input name="deliverydetails" class="radio" type="radio" checked id="couponvalues{{this._id}}" value="{{this.coupon}}" data-dismiss="modal">
+                                    <span class="plan-details" onclick="selectcoupon('{{this._id}}')">
+                                       <span class="plan-type"></span>
+                                       <span class="text-success font-weight-bold" >{{this.coupon}}<span class="slash"></span><abbr class="plan-cycle" title="month"></abbr></span>
+                                       <span class="text-danger font-weight-bold">GET {{this.offerpercentage}} % on the Cart Values</span>
+                                       <span>Claim It Before Expiring</span>
+                                    </span>
+                                 </label>
+                                 </div>
+
+
+                                 {{/each}}
+
+                                 </div><!-- End .modal-body -->
+                              </div><!-- End .modal-content -->
+                        </div><!-- End .modal-dialog -->
+                     </div><!-- End .modal -->
+
+
+
+
+
+
+
+
+
+
+
+                  <form action="" id="checkout-form">
+
+                     <div class="row">
+                        <div class="col-lg-9">
+                           <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+                           
+                           <div class="row">
+                              <div class="row">
+                                 <div class="w-10">
+                                    <h4>Choose the address</h4>
+                                    {{#each addresses}}
+                                    {{!-- <div class="row m-3 d-flex justify-content-between f"  id="{{this._id}}">
+                                       <div  class=" f w-50 d-flex align-items-center col-12 col-md-6">
+                                          <input class="mr-3 " checked value="{{this._id}}" type="radio" name="address" required />
+                                          <label  class="f" for="">{{this.housenumberorstreetname}}</label>
+                                       </div>
+                                       
+                                    </div> --}}
+                                    <div class="">
+                                        <div class="">
+                                            <label class="card">
+                                                <input name="address" value="{{this._id}}" class="radio" type="radio" checked>
+                                                <span class="plan-details">
+                                                    <span class="plan-type">{{this.firstName}}  {{this.lastName}}</span>
+                                                    <p class="text-danger">+91 {{this.phone}}<span class="text-primary">  , &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{this.email}}</span></p>
+                                                    <span>{{this.housenumberorstreetname}} , {{this.appartment}}, {{this.city}},  {{this.stateorcounty}}   {{this.postcode}}</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                 </div>
+                                 <div class="">
+                                    <p>No addresses added yet?<br />Add new address here</p>
+                                    <button
+                                       type="button"
+                                       class="btn btn-primary"
+                                       data-toggle="modal"
+                                       data-target="#exampleModal"
+                                       data-whatever="@mdo"
+                                    >Add Address</button>
+
+                                 </div>
+                              </div>
+                              
+                           </div><!-- End .row -->
+
+                           
+
+                        </div><!-- End .col-lg-9 -->
+                        <aside class="col-lg-3">
+                           <div class="summary">
+                              <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+                              <table class="table">
+                                 <thead>
+                                    <tr>
+                                       <th class="fw-bold">Product</th>
+                                       <th class="fw-bold">Qty</th>
+                                       <th class="fw-bold">Total</th>
+                                    </tr>
+
+                                 </thead>
+
+                                 <tbody>
+                                    {{#each cartitems}}
+                                       <tr>
+                                          <td class="w-75">{{cartItems.Book}}</td>
+                                          <td>{{this.quantity}}</td>
+                                          <td>{{this.totalPrice}}</td>
+                                       </tr>
+                                    {{/each}}
+
+                                   
+                                       
+                                       
+                                    
+
+                                    <tr class="summary-subtotal">
+                                       
+                                       <td>
+                                          <span><span id="realTotal" style="display: none;">Total : </span><br>Discount : </span><br>
+                                          Subtotal : </td>
+                                       {{#if grandTotal}}
+                                          <td>
+                                             <span id="realTotalAmount" style="display: none;">{{grandTotal}}</span><br>
+                                             <span id="discount">0</span><span>%</span><br>
+                                             
+                                             Rs.<span id="gtotal">{{grandTotal}}</span></td>
+                                       {{/if}}
+                                    </tr><!-- End .summary-subtotal -->
+
+                                 </tbody>
+                              </table><!-- End .table table-summary -->
+
+                              <div>
+                                 <h6>Payment Methods</h6>
+                                 
+                                 <input type="text" hidden value="{{grandTotal}}" id="gtotalaftercoupon" name="gtotal" >
+                                 <input type="text" hidden value="{{cartcount}}" id="" name="cartCount" >
+                                 <input type="text" hidden value="" id="deductedAmount" name="deductedAmount" >
+                                 <input type="text" hidden value="" id="usedcouponcode" name="couponused">
+                                 <input type="radio" name="paymentmethod" value="Cod" id="" required/>
+                                 <label for="">Cash On Delivery(COD)</label>
+                                 <br />
+                                 <input type="radio" name="paymentmethod" value="Razorpay" id="" required/>
+                                 <label for="">Razorpay</label><br>
+                                 <input type="radio" name="paymentmethod" value="Paypal" id="" required/>
+                                 <label for="">Paypal</label>
+                                 <input type="text" hidden value="Initiated" name="shipping" id="" ><br>
+                                 <input type="radio" name="paymentmethod" value="Wallet" id="" required/>
+                                 <label for="">Bookee Wallet</label><br>
+                              </div>
+                            {{#if placeorder}}
+                              <button type="submit" onclick="" class="text-center btn btn-secondary">
+                                 place Order
+                              </button>
+                             {{else}}
+                             <p style="color: red;">Add atleast One address to place the Order</p>
+                             {{/if}} 
+                           </div><!-- End .summary -->
+                        </aside><!-- End .col-lg-3 -->
+                     </div><!-- End .row -->
+                  </form>
+               </div><!-- End .container -->
+            </div><!-- End .checkout -->
+         </div><!-- End .page-content -->
+      </main><!-- End .main -->
+
+     
+   </div><!-- End .page-wrapper -->
+   <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+   <!-- Mobile Menu -->
+   <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+  
+
+
+
+   
+   <script>
+
+      function selectcoupon(couponId){
+         let coupon = document.getElementById('couponvalues'+couponId).value
+         console.log(coupon)
+         document.getElementById('couponInput').value = coupon
+      }
+
+      $('#applycoupon').submit((e)=>{
+         console.log('hell')
+         e.preventDefault()
+         $.ajax({
+            url:'/apply-coupon',
+            type:'post',
+            data:$('#applycoupon').serialize(),
+            success:(response)=>{
+               if(response.status){
+
+               swal(response.message,"",'info')
+               $('#discount').html(response.percentage)
+               gt = $('#gtotal').html()
+               gt = gt-(500*(response.percentage/100))
+               da = 500*(response.percentage/100)
+
+               $('#deductedAmount').val(da)
+               $('#gtotal').html(gt)
+               $('#gtotalaftercoupon').val(gt)
+               $('#usedcouponcode').val(response.coupon)
+               document.getElementById('realTotal').style.display = 'block'
+                document.getElementById('realTotalAmount').style.display = 'block'
+               }else{
+                  swal(response.message,"",'info')
+               }
+
+            },
+			error:(response)=>{
+				location.href = '/error'
+			}
+         })
+      })
+
+      $("#checkout-form").submit((e)=>{
+         e.preventDefault()
+         $.ajax({
+            url:'/place-order',
+            method:'post',
+            data:$("#checkout-form").serialize(),
+            success:(response)=>{
+               if(response.walletStatus){
+                  if(response.noWalletBalance){
+                     swal("Sorry You don't have enough balance in your wallet to place this order", "", "info")
+                  }else{
+                     location.href = '/ordersummary/'+response.insertedId
+                  }
+               }else{
+                  if(response.codStatus){
+                  location.href = '/ordersummary/'+response.insertedId
+                  }else if(response.paypalStatus){
+                     paypalForwarding(response)
+                  }else{
+                     razorpayPayment(response)
+                  }
+               }
+            },
+			error:(response)=>{
+				location.href = '/error'
+			}
+
+         })
+      })
+
+      function razorpayPayment(order){
+   
+         var options = {
+            "key": "rzp_test_4WthUxlOcAGkLi", // Enter the Key ID generated from the Dashboard
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Shoppee",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+            "handler": function (response){
+               verifyPayment(response,order)
+            },
+            "prefill": {
+               "name": "Gaurav Kumar",
+               "email": "gaurav.kumar@example.com",
+               "contact": "9999999999"
+            },
+            "notes": {
+               "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+               "color": "#3399cc"
+            }
+         };
+         var rzp1 = new Razorpay(options);
+         rzp1.open();
+      }
+
+      function verifyPayment(payment,order){
+         console.log('verify payment')
+         $.ajax({
+            url:'/verify-payment',
+            data:{
+               payment,
+               order
+            },
+            method:'post',
+            success:(response)=>{
+               if(response.status){
+                  location.href = '/ordersummary/'+response.orderId
+               }else{
+                  alert('Payment is not succesful')
+               }
+            },
+			error:(response)=>{
+				location.href = '/error'
+			}
+         })
+      }
+
+      function paypalForwarding(response){
+         
+         $.ajax({
+            url:'/paypal',
+            data:{
+               paypalStatus:response.paypalStatus,
+               orderId:response.orderId,
+               grandTotal:response.grandTotal
+            },
+            type:'post',
+            success:(response)=>{
+               location.href = response
+            }
+         })
+      }
+
+      $("#address-form").submit((e)=>{
+         e.preventDefault()
+         console.log('helloll')
+         if(hello()){
+            $.ajax({
+               url:'/addAddress',
+               type:'post',
+               data:$("#address-form").serialize(),
+               success:(response)=>{
+                  window.location.reload()
+               }
+         })
+         }else{
+            checkLname(),checkAppartment(),checkCompany(),checkCountry(),checkEmail(),checkHouse(),checkPhone(),checkPostal(),checkState(),checkTown()
+         }
+         
+      })
+
+      //Email  validation 
+      function ValidateEmail(mail) {
+         const characters = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+         if (characters.test(mail)) {
+            return true;
+         } else {
+            return false;
+         }
+      }
+
+      function ValidateEmailSignature(mail) {
+         const characters = /@/;
+         if (characters.test(mail)) {
+            return true;
+         } else {
+         }
+      }
+
+      function containNumbers(str) {
+      const numbers = /[1234567890]/;
+      return numbers.test(str);
+      }
+
+      function containsSpecialChars(str) {
+         const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+         return specialChars.test(str);
+      }
+
+      function checkFname(){
+         fname = document.getElementById('fname').value
+         if(fname == ""||null|| fname.replace(/\s+/g, '').length == 0){
+            document.getElementById('fnerror').innerHTML = 'This field must not be empty'
+            if(containNumbers(fname)||containsSpecialChars(fname)){
+               document.getElementById('numerror').innerHTML = 'Numbers and special characters are not allowed'
+            }else{
+               document.getElementById('numerror').innerHTML = ''
+            }
+            return false
+         }else{
+            document.getElementById('fnerror').innerHTML = ''
+            if(containNumbers(fname)||containsSpecialChars(fname)){
+               document.getElementById('numerror').innerHTML = 'Numbers and special characters are not allowed'
+            }else{
+               document.getElementById('numerror').innerHTML = ''
+               return true
+            }
+            
+         }
+      }
+
+      function checkLname(){
+         lname = document.getElementById('lname').value
+         if(lname == ""||null|| lname.replace(/\s+/g, '').length == 0){
+            document.getElementById('lnerror').innerHTML = 'This field must not be empty'
+            if(containNumbers(lname)||containsSpecialChars(lname)){
+               document.getElementById('lnumerror').innerHTML = 'Numbers and special characters are not allowed'
+            }else{
+               document.getElementById('lnumerror').innerHTML = ''
+            }
+            return false
+         }else{
+            document.getElementById('lnerror').innerHTML = ''
+            if(containNumbers(lname)||containsSpecialChars(lname)){
+               document.getElementById('lnumerror').innerHTML = 'Numbers and special characters are not allowed'
+            }else{
+               document.getElementById('lnumerror').innerHTML = ''
+               return true
+            }
+            
+         }
+      }
+
+      function checkCompany(){
+         company = document.getElementById('companyname').value
+         if(company == ""||null|| company.replace(/\s+/g, '').length == 0){
+            document.getElementById('companyerror').innerHTML = 'This field must not be empty'
+            return false
+         }else{
+            document.getElementById('companyerror').innerHTML = ''
+            return true
+         }
+      }
+
+      function checkCountry(){
+         country = document.getElementById('countryname').value
+         if(country == ""||null|| country.replace(/\s+/g, '').length == 0){
+            document.getElementById('countryerror').innerHTML = 'This field must not be empty'
+            return false
+         }else{
+            document.getElementById('countryerror').innerHTML = ''
+            return true
+         }
+      }
+
+      function checkHouse(){
+         house = document.getElementById('housenumber').value
+         if(house == ""||null|| house.replace(/\s+/g, '').length == 0){
+            document.getElementById('houseerror').innerHTML = 'This field must not be empty'
+            return false
+         }else{
+            document.getElementById('houseerror').innerHTML = ''
+            return true
+         }
+      }
+
+      function checkAppartment(){
+         appartment = document.getElementById('appartment').value
+         if(appartment == ""||null|| appartment.replace(/\s+/g, '').length == 0){
+            document.getElementById('appartmenterror').innerHTML = 'This field must not be empty'
+            return false
+         }else{
+            document.getElementById('appartmenterror').innerHTML = ''
+            return true
+         }
+      }
+
+      function checkTown(){
+         town = document.getElementById('town').value
+         if(town == ""||null|| town.replace(/\s+/g, '').length == 0){
+            document.getElementById('townerror').innerHTML = 'This field must not be empty'
+            return false
+         }else{
+            document.getElementById('townerror').innerHTML = ''
+            return true
+         }
+      }
+
+      function checkState(){
+         state = document.getElementById('state').value
+         if(state == ""||null|| state.replace(/\s+/g, '').length == 0){
+            document.getElementById('stateerror').innerHTML = 'This field must not be empty'
+            return false
+         }else{
+            document.getElementById('stateerror').innerHTML = ''
+            return true
+         }
+      }
+
+      function checkPostal(){
+         postal = document.getElementById('postal').value
+         if(postal == ""||null|| postal.replace(/\s+/g, '').length == 0){
+            document.getElementById('posterror').innerHTML = 'This field must not be empty'
+            return false
+         }else{
+            document.getElementById('posterror').innerHTML = ''
+            return true
+         }
+      }
+
+      function checkPhone(){
+         phone = document.getElementById('phone').value
+         if(phone == ""||null|| phone.replace(/\s+/g, '').length == 0){
+            document.getElementById('phoneerror').innerHTML = 'This field must not be empty'
+            return false
+         }else{
+            document.getElementById('phoneerror').innerHTML = ''
+            return true
+         }
+      }
+
+      
+
+      function checkEmail() {
+            var mail = document.getElementById("email").value;
+
+         if (mail == "" || mail == null) {
+            document.getElementById("emailerror").innerHTML = "This area should not be blank";
+            return false;
+         } else {
+            if (ValidateEmail(mail)) {
+               document.getElementById("emailerror").innerHTML = "";
+               return true;
+            } else {
+               if (ValidateEmailSignature(mail)) {
+                  document.getElementById("emailerror").innerHTML = "Enter the remaining part after '@'";
+                  return false;
+               } else {
+                  document.getElementById("emailerror").innerHTML = "Email should contain '@'";
+                  return false;
+               }
+            }
+         }
+      }
+
+      hello = ()=>{
+         if(checkFname()&&checkLname()&&checkCompany()&&checkHouse()&&checkAppartment()&&checkTown()&&checkState()&&checkPostal()&&checkPhone()&&checkEmail()){
+            return true
+         }else{
+            return false
+         }
+      }
+
+   
+   </script>   
+
+
+   <!-- Plugins JS File -->
+   <script src="userAssets/js/jquery.min.js"></script>
+   <script src="userAssets/js/bootstrap.bundle.min.js"></script>
+   <script src="userAssets/js/jquery.hoverIntent.min.js"></script>
+   <script src="userAssets/js/jquery.waypoints.min.js"></script>
+   <script src="userAssets/js/superfish.min.js"></script>
+   <script src="userAssets/js/owl.carousel.min.js"></script>
+   
+   
+   <script src="userAssets/js/main.js"></script>
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>

@@ -1,0 +1,207 @@
+<style>
+    .view{
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="page-wrapper">
+        
+
+        <main class="main">
+            
+        	<div class="page-header text-center" style="background-image: url('userAssets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">Shopping Cart<span>Shop</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+           
+
+
+            <div class="page-content ">
+            	<div class="cart">
+	                <div class="container-fluid">
+	                	<div class="row w-100 d-flex justify-content-center">
+	                		<div class="col-lg-9 w-100">
+	                			<table class="table table-cart table-borderless">
+									<thead>
+										<tr class="">
+											<th class="fs-3 fw-semibold">Order</th>
+											<th class="fs-3 fw-semibold">Date</th>
+											<th class="fs-3 fw-semibold">Total Amount</th>
+											<th class="fs-3 fw-semibold">Status</th>
+											<th class="fs-3 fw-semibold">Payment</th>
+                                            <th class="fs-3 fw-semibold"></th>
+										</tr>
+									</thead>
+                                    <tbody>
+                                        {{#each allOrders}}
+                                        <tr>
+                                            <td>
+                                                <p>#order{{this._id}}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{this.timeoforder}}</p>
+                                            </td>
+                                            <td>
+                                                <p>Rs.{{this.grandTotal}}</p>
+                                            </td>
+                                            <td>
+                                                {{#if (isStatusPending this.status)}}
+                                                <p class="text-warning">{{this.status}}</p>
+                                                {{else}}
+                                                  <p class="text-success">{{this.status}}</p>
+                                                {{/if}}
+                                            </td>
+                                            <td>
+                                                <p>{{this.paymentmethod}}</p>
+                                            </td>
+                                            <td>
+                                                {{#if (isStatusPending this.status)}}
+                                                <button onclick="retryPayment('{{this._id}}','{{this.grandTotal}}','{{this.paymentmethod}}')" class="btn btn-success">Retry payment</button>
+                                                {{else}}
+                                                <a onclick="orderDetails('{{this._id}}')" class="view text-primary fs-1" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a>
+                                                {{/if}}
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+
+                                   
+
+									
+								</table><!-- End .table table-wishlist -->
+	                		</div><!-- End .col-lg-9 -->
+	                		
+	                	</div><!-- End .row -->
+	                </div><!-- End .container -->
+                </div><!-- End .cart -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        
+    </div><!-- End .page-wrapper -->
+    <script>
+        function retryPayment(orderId,amount,payment){
+            console.log(payment)
+
+            if(payment == "Razorpay"){
+
+                $.ajax({
+                    url:'/retry-payment',
+                    type:'post',
+                    data:{
+                        orderId:orderId,
+                        amount:amount,
+                    },
+                    success:(response)=>{
+                        razorpayPayment(response)
+                    },
+			error:(response)=>{
+				location.href = '/error'
+			}
+                })
+            }else{
+                $.ajax({
+                    url:'/paypal',
+                    data:{
+                    orderId:orderId,
+                    grandTotal:amount
+                    },
+                    type:'post',
+                    success:(response)=>{
+                    location.href = response
+                    },
+			error:(response)=>{
+				location.href = '/error'
+			}
+                })
+            }
+        }
+
+        function razorpayPayment(order){
+            console.log(order.amount, order.id)
+         var options = {
+            "key": "rzp_test_4WthUxlOcAGkLi", // Enter the Key ID generated from the Dashboard
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Shoppee",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+            "handler": function (response){
+               verifyPayment(response,order)
+            },
+            "prefill": {
+               "name": "Gaurav Kumar",
+               "email": "gaurav.kumar@example.com",
+               "contact": "9999999999"
+            },
+            "notes": {
+               "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+               "color": "#3399cc"
+            }
+         };
+         var rzp1 = new Razorpay(options);
+         rzp1.open();
+      }
+
+      function verifyPayment(payment,order){
+         console.log('verify payment')
+         $.ajax({
+            url:'/verify-payment',
+            data:{
+               payment,
+               order
+            },
+            method:'post',
+            success:(response)=>{
+               if(response.status){
+                  location.href = '/ordersummary/'+response.orderId
+               }else{
+                  alert('Payment is not succesful')
+               }
+            }
+         })
+      }
+    </script>
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+   
+
+    
+
+
+
+
+    {{!-- MODALS --}}
+
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+
+
+
+       <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Plugins JS File -->
+    <script src="userAssets/js/jquery.min.js"></script>
+    <script src="userAssets/js/bootstrap.bundle.min.js"></script>
+    <script src="userAssets/js/jquery.hoverIntent.min.js"></script>
+    <script src="userAssets/js/jquery.waypoints.min.js"></script>
+    <script src="userAssets/js/superfish.min.js"></script>
+    <script src="userAssets/js/owl.carousel.min.js"></script>
+    <script src="userAssets/js/bootstrap-input-spinner.js"></script>
+    <!-- Main JS File -->
+    <script src="userAssets/js/main.js"></script>
+</body>
+
+

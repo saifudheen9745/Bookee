@@ -1,0 +1,170 @@
+<main class="main" id="main">
+   <section>
+      <div class="container me-5 mt-4">
+         <div class="row">
+
+            <div class="col-md-6">
+               <h2 class="text-center">
+                  Add Product
+               </h2>
+               <form autocomplete="off" action="/admin/add-product" method="post" enctype="multipart/form-data">
+                  <div class="mb-3">
+                     <input type="text" class="form-control" id="book" onkeyup="checkBook()" name="Book" placeholder="Name of book" />
+                     <P style="color: red;" id="bookerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input type="number" class="form-control" id="price" onkeyup="checkPrice()" name="Price" placeholder="Price of book" />
+                     <P style="color: red;" id="priceerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input type="text" class="form-control" id="author" onkeyup="checkAuthor()" name="Author" placeholder="Author" />
+                     <P style="color: red;" id="authorerror"></P>
+                  </div>
+
+                  <select name="Genre" id="genre" class="form-control mb-3" >
+                     <option value="">Select Genre</option>
+                     {{#each data}}
+                     <option value="{{this._id}}">{{this.Name}}</option>
+                     {{/each}}
+                  </select>
+                  
+                  <div class="mb-3">
+                     <input type="text" class="form-control" id="publisher" onkeyup="checkPublisher()" name="Publisher" placeholder="Publisher" />
+                      <P style="color: red;" id="publishererror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input type="number" class="form-control" id="quantity" onkeyup="checkPublisher()" name="Quantity" placeholder="Quantity" />
+                      <P style="color: red;" id="publishererror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <textarea
+                        class="form-control"
+                        id="description"
+                        name="Description"
+                        placeholder="Description"
+                        cols="30"
+                        rows="10"
+                        onkeyup="checkDescription()"
+                     ></textarea>
+                     <P style="color: red;" id="descriptionerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input accept="image/*" multiple type="file" name="image" id="img" class="form-control " required placeholder="Image" />
+                     <P style="color: red;" id="imgerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <img style="width:100px;" src="" id="image" alt="" />
+                  </div>
+                  <button type="submit" onclick="return hello()" class="btn btn-primary">Submit</button>
+               </form>
+            </div>
+         </div>
+      </div>
+
+   </section>
+</main>
+
+<script>
+   
+</script>
+
+
+<script>
+   document.getElementById('img').onchange = function () { var src = URL.createObjectURL(this.files[0])
+   document.getElementById('image').src = src }
+</script>
+
+<script>
+
+   var book = document.getElementById('book')
+   var price = document.getElementById('price')
+   var author = document.getElementById('author')
+   var genre = document.getElementById('genre')
+   var publisher = document.getElementById('publisher')
+   var description = document.getElementById('description')
+   var img = document.getElementById('img')
+
+   
+
+   function checkBook(){
+      if(book.value == ""||null|| book.value.replace(/\s+/g, '').length == 0){
+         
+         document.getElementById('bookerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('bookerror').innerHTML = ""
+         return true
+      }
+   }
+
+   function checkPrice(){
+      if(price.value == ""||null|| price.value.replace(/\s+/g, '').length == 0){
+        
+         document.getElementById('priceerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('priceerror').innerHTML = ""
+         return true
+      }
+   }
+
+   function checkAuthor(){
+      if(author.value == ""||null|| author.value.replace(/\s+/g, '').length == 0){
+        
+         document.getElementById('authorerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('authorerror').innerHTML = ""
+         return true
+      }
+   }
+
+   function checkGenre(){
+      if(genre.value == ""||null|| genre.value.replace(/\s+/g, '').length == 0){
+         document.getElementById('genreerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('genreerror').innerHTML = ""
+         return true
+      }
+   }
+
+
+   function checkPublisher(){
+      if(publisher.value == ""||null|| publisher.value.replace(/\s+/g, '').length == 0){
+        
+         document.getElementById('publishererror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('publishererror').innerHTML = ""
+         return true
+      }
+   }
+
+   function checkDescription(){
+      if(description.value == ""||null|| description.value.replace(/\s+/g, '').length == 0){
+         
+         document.getElementById('descriptionerror').innerHTML = "This field must not be empty"
+         return false
+      }else{
+         document.getElementById('descriptionerror').innerHTML = ""
+         return true
+      }
+   }
+
+   var a  = false
+
+   function checkImage(){
+      a = true
+
+   }
+
+   function hello(){
+      
+      if(checkBook()&&checkPrice()&&checkAuthor()&&checkGenre()&&checkPublisher()&&checkDescription()){
+         return true
+      }else{
+         return false
+      }
+   }
+</script>
