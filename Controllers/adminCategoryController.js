@@ -89,3 +89,28 @@ module.exports.adminEditCategoryPost =async (req, res, next) => {
        res.redirect("/admin/error");
     }
  }
+
+ module.exports.adminDeleteCategory = async (req,res,next)=>{
+   if(req.body.productDelete == 'true'){
+      productHelpers.deleteCategoryAndProductsWithin(req.body).then((data)=>{
+         fs.unlink("public/categoryImages/"+data.categoryImage,function(err){
+            
+            if(data.productsImg.length != 0){
+               data.productsImg[0].img.forEach(element => {
+                  fs.unlink("public/productImages/"+element,function(err){
+                     if(err) return console.log(err);
+                  })
+               });
+            }
+         })
+         res.json({withproducts:true})
+      })
+   }else{
+      productHelpers.deleteCategory(req.body).then((data)=>{
+         fs.unlink("public/categoryImages/"+data,function(err){
+            if(err) return console.log(err);
+            res.json({withproducts:false})
+         })
+      })
+   }
+}
