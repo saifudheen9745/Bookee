@@ -106,7 +106,7 @@ module.exports.isUserLogged = async (req, res, next) => {
     }
  }
 
- module.exports.userSendOtp = async (req, res, next) => {
+ module.exports.userSendOtp =  (req, res, next) => {
     try {
       if (req.session.isUserLoggedIn) {
          res.redirect("/");
@@ -138,7 +138,7 @@ module.exports.isUserLogged = async (req, res, next) => {
     
  }
 
- module.exports.userVerifyOtp = async (req, res) => {
+ module.exports.userVerifyOtp = (req, res) => {
    console.log('====================');
    console.log(req.session.abc)
    console.log('===================');
