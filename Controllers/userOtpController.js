@@ -60,7 +60,7 @@ getUser = (req, res, next) => { //to get user details from the mobile number
    try {
        userHelpers.getUserDetails(req.session.OTP_RECEIVED_NUMBER).then((data)=>{
          console.log('inside getuser');
-
+         console.log('details,',data);
          req.session.userDetail = data
        })
    } catch (error) {
