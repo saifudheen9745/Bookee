@@ -119,7 +119,9 @@ module.exports.isUserLogged = async (req, res, next) => {
                   data,
                });
             })
-            .catch((data) => {});
+            .catch((data) => {
+               console.log(data);
+            });
          getUser(req, res, next);
          res.render("Users/enter-otp", { login: true, invalidOtp: req.session.invalidOtp });
          req.session.invalidOtp = false;
