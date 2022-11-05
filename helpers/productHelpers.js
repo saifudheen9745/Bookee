@@ -6,8 +6,13 @@ var collection = require("../config/collections");
 
 module.exports = {
    addProduct: (prodDetails) => {
+      console.log(prodDetails);
       prodDetails.Time = new Date()
-      prodDetails.Genre = ObjectId(prodDetails.Genre)
+      if(prodDetails.Genre != ''){
+         console.log('asfdasdf');
+         prodDetails.Genre = ObjectId(prodDetails.Genre) 
+      }
+      
       return new Promise((resolve, reject) => {
          try {
             db.get()
@@ -17,7 +22,8 @@ module.exports = {
                resolve(data.insertedId.toString());
             });   
          } catch (error) {
-            reject()
+            console.log('uuuuuuuuuuuuuuuuuu');
+            reject(error)
          }
          
       });
@@ -297,6 +303,59 @@ module.exports = {
          }
          
          
+      })
+   },
+   deleteCategoryAndProductsWithin:({catId})=>{
+      return new Promise(async(resolve,reject)=>{
+         let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({_id:ObjectId(catId)})
+         let categoryImg = category.img
+         let productsImg = await db.get().collection(collection.PRODUCTS_COLLECTION).aggregate([
+            {
+               $match:{
+                  Genre:ObjectId(catId)
+               }
+            },
+            {
+               $group:{
+                  _id:0,
+                  img:{'$push':'$img'}
+               }
+            },
+            {
+               $project: {
+                   img: {
+                       "$reduce": {
+                           "input": "$img",
+                           "initialValue": [],
+                           "in": { "$setUnion": ["$$value", "$$this"] }
+                       }
+                   }
+               }
+           }
+         ]).toArray().then((productsImg)=>{
+            
+            db.get().collection(collection.CATEGORY_COLLECTION).deleteOne({_id:ObjectId(catId)}).then(()=>{
+               db.get().collection(collection.PRODUCTS_COLLECTION).deleteMany({Genre:ObjectId(catId)}).then(()=>{
+                  response={
+                     categoryImage:categoryImg,
+                     productsImg:productsImg
+                  }
+                  resolve(response)
+               })
+            })
+         })
+
+         
+      })
+   },
+   deleteCategory:({catId})=>{
+      return new Promise((resolve,reject)=>{
+         db.get().collection(collection.CATEGORY_COLLECTION).findOne({_id:ObjectId(catId)}).then((data)=>{
+            let categoryImg = data.img
+            db.get().collection(collection.CATEGORY_COLLECTION).deleteOne({_id:ObjectId(catId)}).then(()=>{
+               resolve(categoryImg)
+            })
+         })
       })
    },
    getNewArrivals:()=>{

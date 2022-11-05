@@ -1,5 +1,5 @@
 <main id="main" class="main">
-   
+
    <div class="container pt-5">
       <div class="row mb-5">
          <a href="/admin/add-category" class="btn btn-success ms-auto w-auto">Add Category</a>
@@ -9,32 +9,27 @@
          <thead>
             <tr>
                <th scope="col">No</th>
-                <th scope="col">Image</th>
+               <th scope="col">Image</th>
                <th scope="col">Name</th>
                <th scope="col">Options</th>
             </tr>
          </thead>
          <tbody class="bg-light">
             {{#each data as |item i|}}
-               <tr valign="middle" class="bg-light">
-                  <td class="bg-light">{{inc @i}}</td>
-                  <td><img style="width: 70px; height: 80px;" src="/categoryImages/{{this.img}}" alt=""></td>
-                  <td>{{this.Name}}</td>
-                  <td>
-                     <a href="/admin/edit-category/{{this._id}}" class="me-5"><img style="width: 2em;" src="/images/pen.png" alt=""></a>
-                     {{!-- <a
-                        onclick='return confirm("Are you sure you want to delete the category {{this.Name}}")'
-                        href="/admin/delete-category/{{this._id}}"
-                        class="btn btn-danger"
-                     >Delete</a> --}}
-                     {{!-- <a  style="cursor: pointer;" onclick="getOneCategory('{{this._id}}')" class="me-5" ></a> --}}
-                     <a
-                        onclick='return confirm("Are you sure you want to delete the category {{this.Name}}")'
-                        href="/admin/delete-category/{{this._id}}"
-                        class=""
-                     ><img style="width:3em" src="/images/trash.png" alt=""></a>
-                  </td>
-               </tr>
+            <tr valign="middle" class="bg-light">
+               <td class="bg-light">{{inc @i}}</td>
+               <td><img style="width: 70px; height: 80px;" src="/categoryImages/{{this.img}}" alt=""></td>
+               <td>{{this.Name}}</td>
+               <td>
+                  <a href="/admin/edit-category/{{this._id}}" class="me-5"><img style="width: 2em;"
+                        src="/images/pen.png" alt=""></a>
+                  {{!-- <a onclick='return confirm("Are you sure you want to delete the category {{this.Name}}")'
+                     href="/admin/delete-category/{{this._id}}" class="btn btn-danger">Delete</a> --}}
+                  {{!-- <a style="cursor: pointer;" onclick="getOneCategory('{{this._id}}')" class="me-5"></a> --}}
+                  <a onclick="deleteCategory('{{this._id}}')" class=""><img style="width:3em" src="/images/trash.png"
+                        alt=""></a>
+               </td>
+            </tr>
             {{/each}}
          </tbody>
       </table>
@@ -43,65 +38,117 @@
    <!-- Button trigger modal -->
 
 
-<!-- Modal -->
-<div class="modal fade" id="editCatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form autocomplete="off" action="/admin/edit-category/{{this._id}}" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-               <input type="text" class="form-control" id="category" onkeyup="checkName()" value="{{this.Name}}" name="Name" placeholder="Name of Category" />
-               <P style="color: red;" id="categoryerror"></P>
+   <!-- Modal -->
+   <div class="modal fade" id="editCatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
             </div>
-            <div class="mb-3">
-               <input accept="image/*"   type="file" name="CategoryImage" id="img" class="form-control " required placeholder="Category image" />
-               <P style="color: red;" id="imgerror"></P>
+            <div class="modal-body">
+               <form autocomplete="off" action="/admin/edit-category/{{this._id}}" method="post"
+                  enctype="multipart/form-data">
+                  <div class="mb-3">
+                     <input type="text" class="form-control" id="category" onkeyup="checkName()" value="{{this.Name}}"
+                        name="Name" placeholder="Name of Category" />
+                     <P style="color: red;" id="categoryerror"></P>
+                  </div>
+                  <div class="mb-3">
+                     <input accept="image/*" type="file" name="CategoryImage" id="img" class="form-control " required
+                        placeholder="Category image" />
+                     <P style="color: red;" id="imgerror"></P>
+                  </div>
+
+                  <div class="mb-3">
+                     <img style="width:100px;" src="/category-images/{{this._id}}.jpg" id="image" alt="" />
+                  </div>
+
+                  <button type="submit" onclick="return hello()" class="btn btn-primary">Submit</button>
+
+
+               </form>
             </div>
-            
-            <div class="mb-3">
-               <img style="width:100px;" src="/category-images/{{this._id}}.jpg" id="image" alt="" />
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary">Save changes</button>
             </div>
-            
-            <button type="submit" onclick="return hello()" class="btn btn-primary">Submit</button>
-           
-            
-         </form>
+         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+   </div>
 
 </main>
 
- <script>
-      $( function () { $('#table_id').DataTable(); } );
+<script>
+   $(function () { $('#table_id').DataTable(); });
 </script>
 <script>
-   function getOneCategory(catId){
+   function getOneCategory(catId) {
       $.ajax({
-         url:'/admin/editCat/'+catId,
-         success:(response)=>{
+         url: '/admin/editCat/' + catId,
+         success: (response) => {
             $('#category').val(response.Name)
-            $("#editCatModal").modal('show');  
+            $("#editCatModal").modal('show');
          },
-			error:(response)=>{
-				location.href = '/admin/error'
-			}
+         error: (response) => {
+            location.href = '/admin/error'
+         }
       })
+
+   }
+
+   function deleteCategory(catId) {
+      console.log(catId)
+      swal({
+         title: "Do you want to this category?",
+         text: "Once deleted, the action is irreversible!",
+         icon: "warning",
+         buttons: true,
+         dangerMode: true,
+      }).then((willDelete) => {
+         if (willDelete) {
+            let produtDelete = false
+            swal({
+               title: "Do you want to delete all the products within the category?",
+               text: "Once deleted, the action is irreversible!",
+               icon: "warning",
+               buttons: true,
+               dangerMode: true,
+            }).then((willDelete) => {
+               if (willDelete) {
+                  produtDelete = true
+               }
+               $.ajax({
+                  url: '/admin/delete-category',
+                  type: 'delete',
+                  data: {
+                     catId: catId,
+                     productDelete: produtDelete
+                  },
+                  success: (response) => {
+                     if(response.withproducts){
+                        swal('Category Deleted successfully With Products',"",'success')
+                     }else{
+                        swal('Category Deleted successfully',"",'success')
+                     }
+                     
+                  }
+               })
+            })
+         } else {
+
+         }
+      })
+
 
    }
 </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

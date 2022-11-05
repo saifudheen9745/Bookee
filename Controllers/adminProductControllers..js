@@ -76,6 +76,7 @@ module.exports.adminGetAllProducts = async (req, res, next) => {
              res.redirect("/admin/products");
           })
           .catch((error) => {
+            console.log(error);
              res.redirect("/admin/error");
           });
     } catch (error) {

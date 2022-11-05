@@ -1,7 +1,7 @@
 let express = require("express");
 const { upload, upload2 } = require("../public/javascripts/fileUpload");
 let router = express.Router();
-
+let fs = require('fs')
 const {
    adminLoginPage,
    adminLoginPagePost,
@@ -52,6 +52,7 @@ const {
    adminEditCategoryPost,
    adminGetOneCategoryDetailsToEdit,
 } = require("../Controllers/adminCategoryController");
+const productHelpers = require("../helpers/productHelpers");
 
 // admin cred
 
@@ -145,6 +146,31 @@ router.post("/add-category", upload2.any("CategoryImage"), adminAddCategoryPost)
 router.get("/edit-category/:id", adminGetOneCategoryDetailsToEdit);
 
 router.post("/edit-category/:id", upload2.any("CategoryImage"), adminEditCategoryPost);
+
+router.delete('/delete-category',(req,res,next)=>{
+   if(req.body.productDelete == 'true'){
+      productHelpers.deleteCategoryAndProductsWithin(req.body).then((data)=>{
+         fs.unlink("public/categoryImages/"+data.categoryImage,function(err){
+            
+            if(data.productsImg.length != 0){
+               data.productsImg[0].img.forEach(element => {
+                  fs.unlink("public/productImages/"+element,function(err){
+                     if(err) return console.log(err);
+                  })
+               });
+            }
+         })
+         res.json({withproducts:true})
+      })
+   }else{
+      productHelpers.deleteCategory(req.body).then((data)=>{
+         fs.unlink("public/categoryImages/"+data,function(err){
+            if(err) return console.log(err);
+            res.json({withproducts:false})
+         })
+      })
+   }
+})
 
 //Others
 
