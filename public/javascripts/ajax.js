@@ -83,6 +83,7 @@ function changeQuantity(cart, product, count, maxQnty) {
             var offer = parseInt(document.getElementById(`${product}offer`).textContent);
             document.getElementById(`${product}tpp`).innerHTML = (price - price * (offer / 100)) * quantity;
             document.getElementById("grandtotal").innerHTML = response.grandtotal;
+            document.getElementById('grandtotalUnder').innerHTML = response.grandtotal
          },
       });
    }

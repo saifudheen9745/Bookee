@@ -87,11 +87,7 @@ module.exports.isUserLogged = async (req, res, next) => {
                 channel: "sms",
              })
              .then((data) => {
-                res.status(200).send({
-                   message: "Verification is sent!!",
-                   phonenumber: req.query.phonenumber,
-                   data,
-                });
+                
              })
              .catch((data) => {});
           getUser(req, res, next);
