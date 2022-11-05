@@ -68,7 +68,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   // res.status(err.status || 500);
-  res.render('Users/error',{err,login:true});
+  res.render('Users/pages-error-404',{err,login:true});
 });
 
 module.exports = app;
