@@ -56,9 +56,13 @@ module.exports.userRenderEnterMobileNumberForOtp = async (req, res, next) => {
     }
  };
 
-getUser = async (req, res, next) => { //to get user details from the mobile number
+getUser = (req, res, next) => { //to get user details from the mobile number
    try {
-      req.session.userDetail = await userHelpers.getUserDetails(req.session.OTP_RECEIVED_NUMBER);
+       userHelpers.getUserDetails(req.session.OTP_RECEIVED_NUMBER).then((data)=>{
+         console.log('inside getuser');
+
+         req.session.userDetail = data
+       })
    } catch (error) {
       
       res.redirect("/error");
