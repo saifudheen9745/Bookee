@@ -3,7 +3,7 @@ var router = express.Router();
 var productHelpers = require("../helpers/productHelpers");
 var userHelpers = require("../helpers/userHelpers");
 const paypal = require("paypal-rest-sdk");
-
+let userTransfer
 require("dotenv").config();
 
 paypal.configure({
@@ -59,10 +59,7 @@ module.exports.userRenderEnterMobileNumberForOtp = async (req, res, next) => {
 getUser = (req, res, next) => { //to get user details from the mobile number
    try {
        userHelpers.getUserDetails(req.session.OTP_RECEIVED_NUMBER).then((data)=>{
-         console.log('inside getuser');
-         console.log('details,',data);
-         req.session.abc = data
-         console.log(req.session.abc);
+         userTransfer = data
        })
    } catch (error) {
       
@@ -137,7 +134,7 @@ module.exports.isUserLogged = async (req, res, next) => {
  module.exports.userVerifyOtp = (req, res,next) => {
    console.log('====================');
 
-   console.log(req.session.abc)
+   console.log(userTransfer)
    console.log('===================');
     try {
        if (req.session.isUserLoggedIn) {
@@ -151,7 +148,7 @@ module.exports.isUserLogged = async (req, res, next) => {
              })
              .then((data) => {
                 if (data.status === "approved") {
-                   req.session.user = req.session.userDetail;
+                   req.session.user = userTransfer
                    req.session.isUserLoggedIn = true;
                    res.redirect("/");
                 } else {
