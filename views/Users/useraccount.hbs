@@ -130,7 +130,7 @@
                                         <label class="fs-1">Email: <span class="text-primary">{{userdetails.email}}</span></label>
                                     </div>
                                     <div>
-                                       <label class="fs-1">Referal Id: <span class="text-primary">{{userdetails.referalcode}}</span></label>
+                                       <label class="fs-1" >Referal Id: <span class="text-primary" id="myText">{{userdetails.referalcode}}</span><span><button onclick="copyContent()" class="ml-5 btn btn-outline-primary-2">Copy</button></span></label>
                                     </div>
                                  </div>
                                  
@@ -620,4 +620,16 @@
 			}
    })
   })
+
+
+  let text = document.getElementById('myText').innerHTML;
+  let copyContent = async () => {
+   swal("Referal code copied to clipboard","","success")
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log('Content copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  }
 </script>
