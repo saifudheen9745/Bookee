@@ -118,16 +118,12 @@ module.exports.isUserLogged = async (req, res, next) => {
                channel: "sms",
             })
             .then((data) => {
-               res.status(200).send({
-                  message: "Verification is sent!!",
-                  phonenumber: req.query.phonenumber,
-                  data,
-               });
+               getUser(req, res, next);
             })
             .catch((data) => {
                console.log(data);
             });
-         getUser(req, res, next);
+         
          res.render("Users/enter-otp", { login: true, invalidOtp: req.session.invalidOtp });
          req.session.invalidOtp = false;
       }
@@ -138,8 +134,9 @@ module.exports.isUserLogged = async (req, res, next) => {
     
  }
 
- module.exports.userVerifyOtp = (req, res) => {
+ module.exports.userVerifyOtp = (req, res,next) => {
    console.log('====================');
+
    console.log(req.session.abc)
    console.log('===================');
     try {
