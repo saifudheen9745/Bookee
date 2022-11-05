@@ -140,7 +140,7 @@ module.exports.isUserLogged = async (req, res, next) => {
 
  module.exports.userVerifyOtp = async (req, res) => {
    console.log('====================');
-   console.log(req.session.userDetail)
+   console.log(req.session.abc)
    console.log('===================');
     try {
        if (req.session.isUserLoggedIn) {
