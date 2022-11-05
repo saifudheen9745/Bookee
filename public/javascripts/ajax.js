@@ -5,6 +5,7 @@ function addToCart(prodId) {
       success: (response) => {
          console.log(response)
          if (response.status) {
+            swal("This item successfully added to your cart", "", "success");
             if(response.incNumber){
                console.log('hello')
                let count = $("#cart-count").html();

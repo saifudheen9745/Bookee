@@ -113,7 +113,15 @@
   $(function () { $('#table_id').DataTable(); });
 
   function deleteOfferProduct(prodId) {
-    $.ajax({
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, the action is irreversible!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+   }).then((willDelete) => {
+    if(willDelete){
+      $.ajax({
       url: '/admin/deleteofferproduct',
       type: 'post',
       data: {
@@ -130,5 +138,8 @@
 				location.href = '/admin/error'
 			}
     })
+    }
+   })
+    
   }
 </script>
