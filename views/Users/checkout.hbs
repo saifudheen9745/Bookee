@@ -493,7 +493,7 @@
 
                swal(response.message,"",'info')
                $('#discount').html(response.percentage)
-               gt = $('#gtotal').html()
+               gt = $('#realTotalAmount').html()
                gt = gt-(500*(response.percentage/100))
                da = 500*(response.percentage/100)
 
