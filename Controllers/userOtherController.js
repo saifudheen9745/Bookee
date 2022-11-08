@@ -800,6 +800,7 @@ module.exports.userGetHomePage =  async (req, res, next) => {
        userHelpers
           .getWishList()
           .then(async (data) => {
+            console.log(data.length);
              try {
                 var cartcount = await userHelpers.getCartCount(req.session.user._id);
              } catch (error) {
@@ -811,6 +812,7 @@ module.exports.userGetHomePage =  async (req, res, next) => {
                 admin: false,
                 user: req.session.user,
                 data,
+                wishlistcount : data.length
              });
           })
           .catch((error) => {

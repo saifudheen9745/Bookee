@@ -1,6 +1,12 @@
 <main class="main" id="main">
     <div class="page-content">
         <div class="container">
+            {{#if (isZero wishlistcount)}}
+            <div class="d-flex justify-content-center">
+                <img src="https://i.pinimg.com/originals/f6/e4/64/f6e464230662e7fa4c6a4afb92631aed.png" alt="">
+                
+            </div>
+            {{else}}
             <table class="table table-wishlist table-mobile">
                 <thead>
                     <tr>
@@ -44,7 +50,7 @@
                     {{/each}}
                 </tbody>
             </table><!-- End .table table-wishlist -->
-           
+           {{/if}}
         </div><!-- End .container -->
     </div><!-- End .page-content -->
 </main><!-- End .main -->

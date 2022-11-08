@@ -114,12 +114,18 @@ function deleteProduct(product) {
                   let count = $("#cart-count").html();
                   count = parseInt(count) - 1;
                   $("#cart-count").html(count);
+                  if(count == 0){
+                     location.reload()
+                  }
+                  
                } else {
                   document.getElementById("proceedtocheckout").style.display = "none";
                   let count = $("#cart-count").html();
                   count = parseInt(count) - 1;
                   $("#cart-count").html(count);
-                  
+                  if(count == 0){
+                     location.reload()
+                  }
                }
             },
          });

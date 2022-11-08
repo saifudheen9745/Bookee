@@ -11,14 +11,29 @@
         			<h1 class="page-title">Shopping Cart<span>Shop</span></h1>
         		</div><!-- End .container -->
         	</div><!-- End .page-header -->
-            
+            <div id="cartGif">
 
+            {{#if (isZero cartcount)}}
+            <div class="d-flex justify-content-center m-5 text-center">
+                <img class="mx-auto "  style=";" src="https://hakimitr.com/assets/website/images/empty-cart.gif" alt="">
+                
+            </div>
+            <div class="text-center">
+                <h4>Oops , Cart is empty</h4>
+                <h5>Please fill your cart</h5>
+                <a href="/" class="btn btn-primary">Go Home</a>
+            </div>                    
+            {{/if}}
+            </div>
 
             <div class="page-content">
             	<div class="cart">
 	                <div class="container">
 	                	<div class="row">
 	                		<div class="col-lg-9">
+                                {{#if (isZero cartcount)}}
+                                
+                                {{else}}
 	                			<table class="table table-cart table-mobile">
 									<thead>
 										<tr>
@@ -32,6 +47,7 @@
 									</thead>
 
 									<tbody>
+                                        
                                         {{#each cartitems}}
 										<tr id="{{this.item}}">
 											<td class="product-col">
@@ -75,12 +91,10 @@
 									</tbody>
 								</table><!-- End .table table-wishlist -->
 
-	                			<div class="cart-bottom">
-			            			
-
-			            			<a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a>
-		            			</div><!-- End .cart-bottom -->
+	                			{{/if}}
 	                		</div><!-- End .col-lg-9 -->
+                            {{#if (isZero cartcount)}}
+                            {{else}}
 	                		<aside class="col-lg-3">
 	                			<div class="summary summary-cart">
 	                				<h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
@@ -149,6 +163,7 @@
 
 		            			<a href="/" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
 	                		</aside><!-- End .col-lg-3 -->
+                            {{/if}}
 	                	</div><!-- End .row -->
 	                </div><!-- End .container -->
                 </div><!-- End .cart -->
