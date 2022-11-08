@@ -95,6 +95,7 @@
                         amount:amount,
                     },
                     success:(response)=>{
+
                         razorpayPayment(response)
                     },
 			error:(response)=>{
@@ -120,7 +121,7 @@
         }
 
         function razorpayPayment(order){
-            console.log(order.amount, order.id)
+            console.log(order.amount, order.id, order.user)
          var options = {
             "key": "rzp_test_4WthUxlOcAGkLi", // Enter the Key ID generated from the Dashboard
             "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -134,9 +135,9 @@
                verifyPayment(response,order)
             },
             "prefill": {
-               "name": "Gaurav Kumar",
-               "email": "gaurav.kumar@example.com",
-               "contact": "9999999999"
+               "name": order.user.name,
+               "email": order.user.email,
+               "contact": order.user.mobile
             },
             "notes": {
                "address": "Razorpay Corporate Office"

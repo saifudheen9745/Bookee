@@ -430,7 +430,6 @@
 
                               <div>
                                  <h6>Payment Methods</h6>
-                                 
                                  <input type="text" hidden value="{{grandTotal}}" id="gtotalaftercoupon" name="gtotal" >
                                  <input type="text" hidden value="{{cartcount}}" id="" name="cartCount" >
                                  <input type="text" hidden value="" id="deductedAmount" name="deductedAmount" >
@@ -560,9 +559,9 @@
                verifyPayment(response,order)
             },
             "prefill": {
-               "name": "Gaurav Kumar",
-               "email": "gaurav.kumar@example.com",
-               "contact": "9999999999"
+               "name": order.user.name,
+               "email": order.user.email,
+               "contact": order.user.mobile
             },
             "notes": {
                "address": "Razorpay Corporate Office"

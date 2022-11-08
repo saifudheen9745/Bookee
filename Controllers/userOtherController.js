@@ -251,6 +251,7 @@ module.exports.userGetHomePage =  async (req, res, next) => {
        userHelpers
           .addToCart(req.params.id, req.session.user._id)
           .then((data) => {
+            console.log(data);
              res.json(data);
           })
           .catch((error) => {
@@ -444,6 +445,7 @@ module.exports.userGetHomePage =  async (req, res, next) => {
                       res.json(data);
                    } else if (req.body.paymentmethod === "Razorpay") {
                       userHelpers.generateRazorpay(data.insertedId, grandTotal).then((response) => {
+                        response.user = req.session.user
                          res.json(response);
                       });
                    } else if (req.body.paymentmethod === "Paypal") {
@@ -462,6 +464,7 @@ module.exports.userGetHomePage =  async (req, res, next) => {
 
  module.exports.userRetryPayment = (req,res,next)=>{
     userHelpers.generateRazorpay(req.body.orderId,req.body.amount).then((response)=>{
+      response.user = req.session.user
        res.json(response)
     })
  }

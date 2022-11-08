@@ -393,7 +393,7 @@ module.exports = {
                      .collection(collection.CART_COLLECTION)
                      .insertOne(cartObj)
                      .then((data) => {
-                        resolve({ status: true });
+                        resolve({ status: true, incNumber: true });
                      });
                }
             }
@@ -766,6 +766,9 @@ module.exports = {
                      });
                   }
 
+                  db.get()
+                     .collection(collection.COUPON_COLLECTION)
+                     .updateOne({ coupon: orderDetails.couponused }, { $addToSet: { users: ObjectId(address.user)} });
                   resolve(data);
                });
          } catch (error) {
@@ -2065,9 +2068,7 @@ module.exports = {
                   response.percentage = couponExist[0].offerpercentage;
                   response.coupon = couponExist[0].coupon;
                   response.message = "Coupon Applied";
-                  db.get()
-                     .collection(collection.COUPON_COLLECTION)
-                     .updateOne({ coupon: coupon }, { $addToSet: { users: ObjectId(userId) } });
+                  
                   resolve(response);
                }
             } else {
