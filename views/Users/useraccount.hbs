@@ -233,14 +233,16 @@
                                     </div>
                                      <p class="fs-2 ms-2">Wallet: <span class=" fs-1 text-success"> {{wallet.Balance}}</span></p>
                                  </div>
-                                
+                                <button onclick="trTable('show')" id="showbutton" class="btn btn-success">Show Transaction</button>
+                                <button onclick="trTable('hide')" style="display: none;" id="hidebutton" class="btn btn-primary">Hide Transaction</button>
+
                                  
-                                 <div class="page-content">
+                                 <div class="page-content" >
                                     <div class="cart">
                                        <div class="container-fluid">
                                           <div class="row w-100 d-flex justify-content-center">
-                                             <div class="col-12 w-100">
-                                                <table class="table table-cart table-borderless">
+                                             <div class="col-12 w-100" id="transactionTable" style="display: none;">
+                                                <table class="table table-cart table-borderless" >
                                                    <thead>
                                                       <tr class="">
                                                          
@@ -561,6 +563,24 @@
 </html>
 
 <script>
+
+   function trTable(message){
+      if(message == 'show'){
+
+         document.getElementById("transactionTable").style.display = 'block'
+         document.getElementById("showbutton").style.display = 'none'
+         document.getElementById("hidebutton").style.display = 'block'
+      
+
+      }else{
+         document.getElementById("transactionTable").style.display = 'none'
+         document.getElementById("hidebutton").style.display = 'none'
+         document.getElementById("showbutton").style.display = 'block'
+      
+      }
+   }
+
+
   $('#editaddress-form').submit((e)=>{
     e.preventDefault()
     $.ajax({

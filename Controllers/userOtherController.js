@@ -333,17 +333,22 @@ module.exports.userGetHomePage =  async (req, res, next) => {
        } else {
           placeorder = false;
        }
-       res.render("Users/checkout", {
-          coupons,
-          admin: false,
-          userLogged: req.session.isUserLoggedIn,
-          grandTotal,
-          cartitems,
-          user: req.session.user,
-          addresses,
-          cartcount,
-          placeorder,
-       });
+       if(cartcount != 0){
+         res.render("Users/checkout", {
+            coupons,
+            admin: false,
+            userLogged: req.session.isUserLoggedIn,
+            grandTotal,
+            cartitems,
+            user: req.session.user,
+            addresses,
+            cartcount,
+            placeorder,
+         });
+       }else{
+         res.redirect('/')
+       }
+       
     } catch (error) {
        res.redirect("/error");
     }
