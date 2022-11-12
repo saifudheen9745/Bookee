@@ -3,7 +3,7 @@ var router = express.Router();
 var productHelpers = require("../helpers/productHelpers");
 var userHelpers = require("../helpers/userHelpers");
 const paypal = require("paypal-rest-sdk");
-
+const CC = require('currency-converter-lt')
 require("dotenv").config();
 
 paypal.configure({
@@ -708,8 +708,11 @@ module.exports.userGetHomePage =  async (req, res, next) => {
     }
  }
 
- module.exports.userPaypalPaymentGenerationAndVerification = (req, res, next) => {
+ module.exports.userPaypalPaymentGenerationAndVerification = async(req, res, next) => {
     try {
+      let currencyConverter = new CC()
+      currencyConverter = new CC({from:"INR", to:"USD", amount:parseInt(req.body.grandTotal)})
+      let totalamount = await currencyConverter.convert()
        const create_payment_json = {
           intent: "sale",
           payer: {
@@ -721,20 +724,9 @@ module.exports.userGetHomePage =  async (req, res, next) => {
           },
           transactions: [
              {
-                item_list: {
-                   items: [
-                      {
-                         name: "Red Sox Hat",
-                         sku: "001",
-                         price: "25.00",
-                         currency: "USD",
-                         quantity: 1,
-                      },
-                   ],
-                },
                 amount: {
                    currency: "USD",
-                   total: "25.00",
+                   total: totalamount,
                 },
                 description: "Hat for the best team ever",
              },
@@ -753,7 +745,7 @@ module.exports.userGetHomePage =  async (req, res, next) => {
           }
        });
     } catch (error) {
-       res.redirect("/error");
+       console.log(error);
     }
  }
 
