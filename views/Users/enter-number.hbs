@@ -29,6 +29,15 @@
     <link rel="stylesheet" href="userAssets/css/style.css">
 </head> --}}
 
+<style>
+    body{
+		background-image: url('/images/Book.jpeg');
+		height: 100%
+		
+	}
+</style>
+
+
 <body class="bg-light">
     
         
@@ -36,9 +45,11 @@
         <main class="main " >
             
             <div class="login-page pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17 " >
-                <h1 class="text-center mt-3 mb-3">Shoppee</h1>
+               <div class="text-center m-5 d-flex justify-content-center">
+						<img class="" src="/images/title.png" alt="">
+					</div>
             	<div class="container">
-            		<div class="form-box">
+            		<div style="background-color: #00000070;" class="form-box text-white rounded-5">
             			<div class="form-tab">
 	            			
 							<div class="tab-content">
@@ -49,7 +60,7 @@
 							    	
                                     <form action="/otp" method="">
 							    		<div class="form-group">
-							    			<label for="singin-email-2">Enter your mobile</label>
+							    			<label for="singin-email-2" style="color: white;" class="fs-3">Enter your mobile number</label>
 							    			<input type="text" class="form-control" id="singin-email-2" name="phonenumber" required>
 							    		</div><!-- End .form-group -->
                                             {{#if phoneError}}

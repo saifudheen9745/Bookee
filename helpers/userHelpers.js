@@ -1302,7 +1302,7 @@ module.exports = {
                   },
                ])
                .toArray();
-              
+              console.log(notificationItems)
             resolve(notificationItems);
          } catch (error) {
             reject(error);
